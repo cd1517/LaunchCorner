@@ -14,7 +14,7 @@ struct NookApp: App {
     @StateObject private var appState = AppState()
     
     var body: some Scene {
-        WindowGroup {
+        WindowGroup("Nook") {
             MainView()
                 .environmentObject(appState.configStore)
                 .environmentObject(appState.permissionManager)
@@ -24,7 +24,6 @@ struct NookApp: App {
                 }
                 .preferredColorScheme(.dark)
         }
-        .windowStyle(.hiddenTitleBar)
         .windowResizability(.contentSize)
     }
 }

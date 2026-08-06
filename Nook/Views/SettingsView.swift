@@ -32,21 +32,27 @@ struct SettingsView: View {
                     // General
                     GroupBox("General") {
                         VStack(alignment: .leading, spacing: 16) {
-                            Toggle("Launch at Login", isOn: Binding(
-                                get: { launchAtLogin },
-                                set: { newValue in
-                                    launchAtLogin = newValue
-                                    do {
-                                        if newValue {
-                                            try SMAppService.mainApp.register()
-                                        } else {
-                                            try SMAppService.mainApp.unregister()
+                            HStack {
+                                Text("Launch at Login")
+                                Spacer()
+                                Toggle("", isOn: Binding(
+                                    get: { launchAtLogin },
+                                    set: { newValue in
+                                        launchAtLogin = newValue
+                                        do {
+                                            if newValue {
+                                                try SMAppService.mainApp.register()
+                                            } else {
+                                                try SMAppService.mainApp.unregister()
+                                            }
+                                        } catch {
+                                            print("Failed to update launch at login: \(error)")
                                         }
-                                    } catch {
-                                        print("Failed to update launch at login: \(error)")
                                     }
-                                }
-                            ))
+                                ))
+                                .toggleStyle(.switch)
+                                .labelsHidden()
+                            }
                         }
                         .padding(8)
                     }

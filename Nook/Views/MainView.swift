@@ -9,7 +9,7 @@ struct MainView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // Compact toolbar — just settings gear, minimal height
+            // Compact toolbar — just settings gear
             HStack {
                 Spacer()
                 
@@ -37,9 +37,8 @@ struct MainView: View {
             }
             .animation(.spring(response: 0.5, dampingFraction: 0.8), value: permissionManager.isAccessibilityGranted)
         }
-        .frame(minWidth: 600, minHeight: 480)
+        .frame(width: 660, height: 500)
         .background(Color(NSColor.underPageBackgroundColor))
-        .navigationTitle("Nook")
         .sheet(isPresented: $showingSettings) {
             SettingsView()
         }
