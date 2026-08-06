@@ -47,8 +47,6 @@ struct SettingsView: View {
                                     }
                                 }
                             ))
-                            
-                            Toggle("Enable Corner Detection", isOn: $configStore.config.isActive)
                         }
                         .padding(8)
                     }

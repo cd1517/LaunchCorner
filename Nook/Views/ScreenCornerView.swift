@@ -20,79 +20,51 @@ struct ScreenCornerView: View {
                 .frame(width: 250)
             }
             
+            // Mac screen image with corner buttons overlaid
             ZStack {
-                // Monitor Stand
-                VStack(spacing: 0) {
-                    Spacer()
-                    Rectangle()
-                        .fill(
-                            LinearGradient(colors: [Color.gray.opacity(0.8), Color.gray.opacity(0.4)], startPoint: .top, endPoint: .bottom)
-                        )
-                        .frame(width: 120, height: 40)
-                    Rectangle()
-                        .fill(Color.gray.opacity(0.6))
-                        .frame(width: 200, height: 8)
-                        .cornerRadius(4)
-                }
-                .padding(.top, 280) // Push stand to bottom
+                Image("mac-screen")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxWidth: 520)
+                    .shadow(color: Color.black.opacity(0.3), radius: 20, x: 0, y: 10)
                 
-                // Monitor Screen
-                ZStack {
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(
-                            LinearGradient(
-                                colors: [Color.black.opacity(0.8), Color.black.opacity(0.6)],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 16)
-                                .stroke(Color.white.opacity(0.2), lineWidth: 1)
-                        )
-                        .shadow(color: Color.black.opacity(0.5), radius: 20, x: 0, y: 10)
+                // Corner buttons overlaid on the screen area of the image
+                GeometryReader { geometry in
+                    let screenInset = screenAreaInset(for: geometry.size)
                     
-                    // Grid / Noise texture overlay
-                    Image(systemName: "checkerboard.rectangle")
-                        .resizable()
-                        .opacity(0.05)
-                        .blendMode(.overlay)
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
-                    
-                    // Wallpaper gradient
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(
-                            LinearGradient(colors: [.purple.opacity(0.2), .blue.opacity(0.2)], startPoint: .topLeading, endPoint: .bottomTrailing)
-                        )
-                        .padding(8)
-                    
-                    // Corner Buttons
-                    GeometryReader { geometry in
-                        let cornerSize: CGFloat = 60
-                        let offset: CGFloat = 16
-                        
-                        CornerButton(corner: .topLeft, screenID: selectedScreenID) {
-                            activeSheet = .topLeft
-                        }
-                        .position(x: offset + cornerSize/2, y: offset + cornerSize/2)
-                        
-                        CornerButton(corner: .topRight, screenID: selectedScreenID) {
-                            activeSheet = .topRight
-                        }
-                        .position(x: geometry.size.width - offset - cornerSize/2, y: offset + cornerSize/2)
-                        
-                        CornerButton(corner: .bottomLeft, screenID: selectedScreenID) {
-                            activeSheet = .bottomLeft
-                        }
-                        .position(x: offset + cornerSize/2, y: geometry.size.height - offset - cornerSize/2)
-                        
-                        CornerButton(corner: .bottomRight, screenID: selectedScreenID) {
-                            activeSheet = .bottomRight
-                        }
-                        .position(x: geometry.size.width - offset - cornerSize/2, y: geometry.size.height - offset - cornerSize/2)
+                    CornerButton(corner: .topLeft, screenID: selectedScreenID) {
+                        activeSheet = .topLeft
                     }
+                    .position(
+                        x: screenInset.leading + 30,
+                        y: screenInset.top + 30
+                    )
+                    
+                    CornerButton(corner: .topRight, screenID: selectedScreenID) {
+                        activeSheet = .topRight
+                    }
+                    .position(
+                        x: geometry.size.width - screenInset.trailing - 30,
+                        y: screenInset.top + 30
+                    )
+                    
+                    CornerButton(corner: .bottomLeft, screenID: selectedScreenID) {
+                        activeSheet = .bottomLeft
+                    }
+                    .position(
+                        x: screenInset.leading + 30,
+                        y: geometry.size.height - screenInset.bottom - 30
+                    )
+                    
+                    CornerButton(corner: .bottomRight, screenID: selectedScreenID) {
+                        activeSheet = .bottomRight
+                    }
+                    .position(
+                        x: geometry.size.width - screenInset.trailing - 30,
+                        y: geometry.size.height - screenInset.bottom - 30
+                    )
                 }
-                .frame(width: 500, height: 312) // ~16:10 aspect ratio
+                .frame(maxWidth: 520)
             }
         }
         .padding(40)
@@ -100,6 +72,18 @@ struct ScreenCornerView: View {
         .sheet(item: $activeSheet) { corner in
             CornerConfigSheet(corner: corner, screenID: selectedScreenID)
         }
+    }
+    
+    /// Approximate insets from the image edges to the actual screen area
+    /// within the mac-screen.png image. Adjust these values to match your image.
+    private func screenAreaInset(for imageSize: CGSize) -> (top: CGFloat, leading: CGFloat, bottom: CGFloat, trailing: CGFloat) {
+        // These percentages estimate where the display area sits within the mac image
+        // The bezel at top is ~5%, sides ~4%, bottom (chin/stand) ~18%
+        let top = imageSize.height * 0.04
+        let leading = imageSize.width * 0.04
+        let bottom = imageSize.height * 0.22
+        let trailing = imageSize.width * 0.04
+        return (top, leading, bottom, trailing)
     }
 }
 
