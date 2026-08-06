@@ -9,7 +9,7 @@ struct MainView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // Minimal Toolbar — settings gear only
+            // Compact toolbar — just settings gear, minimal height
             HStack {
                 Spacer()
                 
@@ -17,17 +17,13 @@ struct MainView: View {
                     showingSettings = true
                 }) {
                     Image(systemName: "gearshape.fill")
-                        .font(.title3)
+                        .font(.body)
                         .foregroundColor(.secondary)
                 }
                 .buttonStyle(.plain)
             }
-            .padding(.horizontal)
-            .padding(.vertical, 10)
-            .background(Color(NSColor.windowBackgroundColor).opacity(0.9))
-            .background(.ultraThinMaterial)
-            
-            Divider()
+            .padding(.horizontal, 12)
+            .padding(.vertical, 4)
             
             // Content
             Group {
@@ -43,6 +39,7 @@ struct MainView: View {
         }
         .frame(minWidth: 600, minHeight: 480)
         .background(Color(NSColor.underPageBackgroundColor))
+        .navigationTitle("Nook")
         .sheet(isPresented: $showingSettings) {
             SettingsView()
         }
