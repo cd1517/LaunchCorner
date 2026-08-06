@@ -9,21 +9,23 @@ struct MainView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // Compact toolbar — just settings gear
-            HStack {
-                Spacer()
-                
-                Button(action: {
-                    showingSettings = true
-                }) {
-                    Image(systemName: "gearshape.fill")
-                        .font(.body)
-                        .foregroundColor(.secondary)
+            // Compact toolbar — only on main screen
+            if permissionManager.isAccessibilityGranted {
+                HStack {
+                    Spacer()
+                    
+                    Button(action: {
+                        showingSettings = true
+                    }) {
+                        Image(systemName: "gearshape.fill")
+                            .font(.body)
+                            .foregroundColor(.secondary)
+                    }
+                    .buttonStyle(.plain)
                 }
-                .buttonStyle(.plain)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 4)
             }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 4)
             
             // Content
             Group {
