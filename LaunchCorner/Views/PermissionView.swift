@@ -60,7 +60,9 @@ struct PermissionView: View {
             
             // Action button
             Button(action: {
+                permissionManager.requestPermission()
                 permissionManager.openAccessibilitySettings()
+                permissionManager.startMonitoringPermission()
             }) {
                 Text("Open System Settings")
                     .font(.body)
@@ -84,6 +86,9 @@ struct PermissionView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(red: 0x24/255.0, green: 0x23/255.0, blue: 0x21/255.0))
+        .onAppear {
+            permissionManager.startMonitoringPermission()
+        }
     }
     
     private func featureRow(icon: String, title: String, description: String) -> some View {

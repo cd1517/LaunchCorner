@@ -11,6 +11,11 @@ extension NSScreen {
     }
 }
 
+private struct CachedScreenInfo {
+    let screenID: String
+    let frame: NSRect
+}
+
 @MainActor
 class CornerDetectionEngine: ObservableObject {
     @Published var isActive: Bool = false
@@ -22,6 +27,9 @@ class CornerDetectionEngine: ObservableObject {
     private var currentCorner: (corner: Corner, screenID: String)? = nil
     private var hasTriggeredForCurrentEntry: Bool = false
     private var cooldownActive: Bool = false
+    
+    private var cachedScreens: [CachedScreenInfo] = []
+    private var combinedOuterBounds: NSRect = .zero
     
     private let configStore: ConfigStore
     private var cancellables = Set<AnyCancellable>()
@@ -40,10 +48,17 @@ class CornerDetectionEngine: ObservableObject {
                 }
             }
             .store(in: &cancellables)
+            
+        NotificationCenter.default.publisher(for: NSApplication.didChangeScreenParametersNotification)
+            .sink { [weak self] _ in
+                self?.refreshScreenCache()
+            }
+            .store(in: &cancellables)
     }
     
     func start() {
         guard !isActive else { return }
+        refreshScreenCache()
         
         globalMonitor = NSEvent.addGlobalMonitorForEvents(matching: .mouseMoved) { [weak self] event in
             self?.handleMouseMoved(event: event)
@@ -72,6 +87,21 @@ class CornerDetectionEngine: ObservableObject {
         
         cancelDwellTimer()
         isActive = false
+    }
+    
+    private func refreshScreenCache() {
+        var newCache: [CachedScreenInfo] = []
+        var unionFrame: NSRect = .null
+        
+        for screen in NSScreen.screens {
+            if let id = screen.displayID {
+                newCache.append(CachedScreenInfo(screenID: id, frame: screen.frame))
+                unionFrame = unionFrame.union(screen.frame)
+            }
+        }
+        
+        self.cachedScreens = newCache
+        self.combinedOuterBounds = unionFrame
     }
     
     private func handleMouseMoved(event: NSEvent) {
@@ -104,26 +134,33 @@ class CornerDetectionEngine: ObservableObject {
     private func detectCorner(at point: NSPoint) -> (corner: Corner, screenID: String)? {
         let hitZone = configStore.config.hitZoneSize
         
-        for screen in NSScreen.screens {
-            guard let screenID = screen.displayID else { continue }
-            
+        // Fast path: if mouse is in the safe inner area of all screens, skip corner checks immediately
+        if !combinedOuterBounds.isNull &&
+            point.x > combinedOuterBounds.minX + hitZone &&
+            point.x < combinedOuterBounds.maxX - hitZone &&
+            point.y > combinedOuterBounds.minY + hitZone &&
+            point.y < combinedOuterBounds.maxY - hitZone {
+            return nil
+        }
+        
+        for screen in cachedScreens {
             switch configStore.config.monitorMode {
             case .allScreens:
                 break
             case .specificScreen(let targetID):
-                if screenID != targetID { continue }
+                if screen.screenID != targetID { continue }
             }
             
             let frame = screen.frame
             
             if point.x <= frame.minX + hitZone && point.y >= frame.maxY - hitZone {
-                return (.topLeft, screenID)
+                return (.topLeft, screen.screenID)
             } else if point.x >= frame.maxX - hitZone && point.y >= frame.maxY - hitZone {
-                return (.topRight, screenID)
+                return (.topRight, screen.screenID)
             } else if point.x <= frame.minX + hitZone && point.y <= frame.minY + hitZone {
-                return (.bottomLeft, screenID)
+                return (.bottomLeft, screen.screenID)
             } else if point.x >= frame.maxX - hitZone && point.y <= frame.minY + hitZone {
-                return (.bottomRight, screenID)
+                return (.bottomRight, screen.screenID)
             }
         }
         return nil
@@ -160,7 +197,7 @@ class CornerDetectionEngine: ObservableObject {
     
     private func triggerAction(for corner: Corner, screenID: String) {
         cancelDwellTimer()
-        hasTriggeredForCurrentEntry = true // Mark as triggered for this entry into the corner
+        hasTriggeredForCurrentEntry = true
         
         let config = configStore.cornerConfig(forScreenID: screenID)
         let action = config.action(for: corner)

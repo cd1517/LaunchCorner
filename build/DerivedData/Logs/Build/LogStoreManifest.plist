@@ -6,7 +6,7 @@
 	<integer>13</integer>
 	<key>logs</key>
 	<dict>
-		<key>01F4C59F-6DC5-47F9-94A2-E0439B8E2140</key>
+		<key>6E85DEDE-CCC0-4FE8-964C-A1B9A0626D00</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -15,49 +15,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>01F4C59F-6DC5-47F9-94A2-E0439B8E2140.xcactivitylog</string>
-			<key>hasPrimaryLog</key>
-			<true/>
-			<key>primaryObservable</key>
-			<dict>
-				<key>highLevelStatus</key>
-				<string>E</string>
-				<key>totalNumberOfAnalyzerIssues</key>
-				<integer>0</integer>
-				<key>totalNumberOfErrors</key>
-				<integer>1</integer>
-				<key>totalNumberOfTestFailures</key>
-				<integer>0</integer>
-				<key>totalNumberOfWarnings</key>
-				<integer>0</integer>
-			</dict>
-			<key>schemeIdentifier-containerName</key>
-			<string>LaunchCorner project</string>
-			<key>schemeIdentifier-schemeName</key>
-			<string>LaunchCorner</string>
-			<key>schemeIdentifier-sharedScheme</key>
-			<integer>1</integer>
-			<key>signature</key>
-			<string>Building project LaunchCorner with scheme LaunchCorner and configuration Release</string>
-			<key>timeStartedRecording</key>
-			<real>807881676.46976495</real>
-			<key>timeStoppedRecording</key>
-			<real>807881678.11642098</real>
-			<key>title</key>
-			<string>Building project LaunchCorner with scheme LaunchCorner and configuration Release</string>
-			<key>uniqueIdentifier</key>
-			<string>01F4C59F-6DC5-47F9-94A2-E0439B8E2140</string>
-		</dict>
-		<key>CAFB6F1B-07E4-4C3D-956E-9D425CE6BF52</key>
-		<dict>
-			<key>className</key>
-			<string>IDECommandLineBuildLog</string>
-			<key>documentTypeString</key>
-			<string>&lt;nil&gt;</string>
-			<key>domainType</key>
-			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
-			<key>fileName</key>
-			<string>CAFB6F1B-07E4-4C3D-956E-9D425CE6BF52.xcactivitylog</string>
+			<string>6E85DEDE-CCC0-4FE8-964C-A1B9A0626D00.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -82,13 +40,55 @@
 			<key>signature</key>
 			<string>Building project LaunchCorner with scheme LaunchCorner and configuration Release</string>
 			<key>timeStartedRecording</key>
-			<real>807881707.27744806</real>
+			<real>807887903.57901502</real>
 			<key>timeStoppedRecording</key>
-			<real>807881715.28649998</real>
+			<real>807887907.64434099</real>
 			<key>title</key>
 			<string>Building project LaunchCorner with scheme LaunchCorner and configuration Release</string>
 			<key>uniqueIdentifier</key>
-			<string>CAFB6F1B-07E4-4C3D-956E-9D425CE6BF52</string>
+			<string>6E85DEDE-CCC0-4FE8-964C-A1B9A0626D00</string>
+		</dict>
+		<key>E10F0E98-A7FA-4E2E-89A6-E5B10FDF7CE1</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>E10F0E98-A7FA-4E2E-89A6-E5B10FDF7CE1.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>LaunchCorner project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>LaunchCorner</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building project LaunchCorner with scheme LaunchCorner and configuration Release</string>
+			<key>timeStartedRecording</key>
+			<real>807888390.35140002</real>
+			<key>timeStoppedRecording</key>
+			<real>807888394.57725298</real>
+			<key>title</key>
+			<string>Building project LaunchCorner with scheme LaunchCorner and configuration Release</string>
+			<key>uniqueIdentifier</key>
+			<string>E10F0E98-A7FA-4E2E-89A6-E5B10FDF7CE1</string>
 		</dict>
 	</dict>
 </dict>

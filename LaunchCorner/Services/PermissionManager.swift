@@ -9,6 +9,7 @@ class PermissionManager: ObservableObject {
     
     private var checkTimer: Timer?
     private var cancellables = Set<AnyCancellable>()
+    private var isForceReset = false
     
     init() {
         checkPermission(prompt: false)
@@ -21,6 +22,7 @@ class PermissionManager: ObservableObject {
     }
     
     func requestPermission() {
+        isForceReset = false
         checkPermission(prompt: true)
     }
     
@@ -32,23 +34,29 @@ class PermissionManager: ObservableObject {
     }
     
     func resetPermission() {
-        let bundleID = Bundle.main.bundleIdentifier ?? "com.launchcorner.app"
-        let task = Process()
-        task.executableURL = URL(fileURLWithPath: "/usr/bin/tccutil")
-        task.arguments = ["reset", "Accessibility", bundleID]
-        try? task.run()
-        task.waitUntilExit()
-        
+        isForceReset = true
         isAccessibilityGranted = false
-        startMonitoringPermission()
+        stopMonitoringPermission()
+        
+        // Reset macOS TCC Accessibility permissions for LaunchCorner
+        let bundleIDs = Array(Set([Bundle.main.bundleIdentifier ?? "com.launchcorner.app", "com.launchcorner.app", "com.nook.hotcorner"]))
+        for id in bundleIDs {
+            let task = Process()
+            task.executableURL = URL(fileURLWithPath: "/usr/bin/tccutil")
+            task.arguments = ["reset", "Accessibility", id]
+            try? task.run()
+            task.waitUntilExit()
+        }
     }
     
     func startMonitoringPermission() {
         stopMonitoringPermission()
+        if checkPermission(prompt: false) {
+            return
+        }
         checkTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { [weak self] _ in
             Task { @MainActor in
-                self?.checkPermission(prompt: false)
-                if self?.isAccessibilityGranted == true {
+                if self?.checkPermission(prompt: false) == true {
                     self?.stopMonitoringPermission()
                 }
             }
@@ -61,10 +69,16 @@ class PermissionManager: ObservableObject {
     }
     
     @discardableResult
-    private func checkPermission(prompt: Bool) -> Bool {
+    func checkPermission(prompt: Bool) -> Bool {
+        if isForceReset {
+            self.isAccessibilityGranted = false
+            return false
+        }
         let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: prompt]
         let isGranted = AXIsProcessTrustedWithOptions(options as CFDictionary)
-        self.isAccessibilityGranted = isGranted
+        if self.isAccessibilityGranted != isGranted {
+            self.isAccessibilityGranted = isGranted
+        }
         return isGranted
     }
 }

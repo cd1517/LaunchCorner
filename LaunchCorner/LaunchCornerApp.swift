@@ -53,7 +53,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
 }
 
 @main
-struct NookApp: App {
+struct LaunchCornerApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject private var appState = AppState()
     
@@ -67,8 +67,9 @@ struct NookApp: App {
                     appDelegate.appState = appState
                     _ = appState.menuBarManager
                     
-                    appState.menuBarManager.onOpenSettings = { [weak appDelegate] in
-                        appDelegate?.showMainWindow()
+                    let delegate = appDelegate
+                    appState.menuBarManager.onOpenSettings = { [weak delegate] in
+                        delegate?.showMainWindow()
                     }
                     
                     appState.permissionManager.startMonitoringPermission()
