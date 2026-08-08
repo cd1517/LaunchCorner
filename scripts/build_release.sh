@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "🚀 Building LaunchCorner Universal 2 Binary (Apple Silicon + Intel)..."
+echo "Building LaunchCorner Universal 2 Binary (Apple Silicon + Intel)..."
 
 # Ensure output directory exists
 mkdir -p build
@@ -20,15 +20,15 @@ xcodebuild build \
 BUILT_APP="build/DerivedData/Build/Products/Release/LaunchCorner.app"
 
 if [ -d "$BUILT_APP" ]; then
-    echo "📦 Packaging LaunchCorner.app into LaunchCorner.zip..."
+    echo "Packaging LaunchCorner.app into LaunchCorner.zip..."
     cd build/DerivedData/Build/Products/Release
     zip -r -9 "../../../../../build/LaunchCorner.zip" "LaunchCorner.app"
     cd - > /dev/null
     
-    echo "✅ Release build successful!"
-    echo "📂 Artifact created at: build/LaunchCorner.zip"
+    echo "Release build successful!"
+    echo "Artifact created at: build/LaunchCorner.zip"
     file "build/DerivedData/Build/Products/Release/LaunchCorner.app/Contents/MacOS/LaunchCorner"
 else
-    echo "❌ Build failed: LaunchCorner.app not found."
+    echo "Build failed: LaunchCorner.app not found."
     exit 1
 fi
