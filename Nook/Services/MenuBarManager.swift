@@ -21,6 +21,7 @@ class MenuBarManager: NSObject {
         buildMenuOnce()
         setupObservers()
         updateMenuBarPresence()
+        updateToggleState()
     }
     
     private func buildMenuOnce() {
@@ -60,8 +61,17 @@ class MenuBarManager: NSObject {
     
     private func setupObservers() {
         configStore.$config
+            .map { $0.showInMenuBar }
+            .removeDuplicates()
             .sink { [weak self] _ in
                 self?.updateMenuBarPresence()
+            }
+            .store(in: &cancellables)
+            
+        configStore.$config
+            .map { $0.isActive }
+            .removeDuplicates()
+            .sink { [weak self] _ in
                 self?.updateToggleState()
             }
             .store(in: &cancellables)
@@ -82,7 +92,6 @@ class MenuBarManager: NSObject {
                 NSStatusBar.system.removeStatusItem(item)
                 statusItem = nil
             }
-            // Ensure app window is visible in Dock when Menu Bar item is disabled
             NSApp.setActivationPolicy(.regular)
             if let window = NSApp.windows.first, !window.isVisible {
                 window.makeKeyAndOrderFront(nil)
