@@ -31,6 +31,18 @@ class PermissionManager: ObservableObject {
         }
     }
     
+    func resetPermission() {
+        let bundleID = Bundle.main.bundleIdentifier ?? "com.launchcorner.app"
+        let task = Process()
+        task.executableURL = URL(fileURLWithPath: "/usr/bin/tccutil")
+        task.arguments = ["reset", "Accessibility", bundleID]
+        try? task.run()
+        task.waitUntilExit()
+        
+        isAccessibilityGranted = false
+        startMonitoringPermission()
+    }
+    
     func startMonitoringPermission() {
         stopMonitoringPermission()
         checkTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { [weak self] _ in

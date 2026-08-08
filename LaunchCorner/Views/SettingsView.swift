@@ -3,6 +3,7 @@ import ServiceManagement
 
 struct SettingsView: View {
     @EnvironmentObject var configStore: ConfigStore
+    @EnvironmentObject var permissionManager: PermissionManager
     var onBack: (() -> Void)? = nil
     
     @AppStorage("launchAtLogin") private var launchAtLogin = false
@@ -135,7 +136,7 @@ struct SettingsView: View {
                     // Danger Zone (Reset Section)
                     GroupBox("Danger Zone") {
                         HStack {
-                            Text("Reset All Configurations")
+                            Text("Reset All Configurations & Permissions")
                             Spacer()
                             Button("Reset") {
                                 showResetConfirmation = true
@@ -209,9 +210,13 @@ struct SettingsView: View {
                 configStore.config.showInMenuBar = true
                 configStore.config.autoCheckUpdates = true
                 configStore.save()
+                
+                // Reset Accessibility TCC permissions and redirect to Onboarding
+                permissionManager.resetPermission()
+                onBack?()
             }
         } message: {
-            Text("This will reset all corner assignments and sensitivity settings to defaults.")
+            Text("This will reset all corner assignments, settings, and accessibility permissions, returning you to onboarding.")
         }
     }
     
