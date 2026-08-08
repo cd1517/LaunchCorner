@@ -33,16 +33,10 @@ struct SettingsView: View {
                             HStack {
                                 Text("Show in Menu Bar")
                                 Spacer()
-                                Toggle("", isOn: Binding(
-                                    get: { configStore.config.showInMenuBar },
-                                    set: { newValue in
-                                        configStore.config.showInMenuBar = newValue
-                                        configStore.save()
-                                    }
-                                ))
-                                .toggleStyle(.switch)
-                                .controlSize(.mini)
-                                .labelsHidden()
+                                Toggle("", isOn: $configStore.config.showInMenuBar)
+                                    .toggleStyle(.switch)
+                                    .controlSize(.mini)
+                                    .labelsHidden()
                             }
                             
                             Divider()
@@ -50,16 +44,10 @@ struct SettingsView: View {
                             HStack {
                                 Text("Enable LaunchCorner")
                                 Spacer()
-                                Toggle("", isOn: Binding(
-                                    get: { configStore.config.isActive },
-                                    set: { newValue in
-                                        configStore.config.isActive = newValue
-                                        configStore.save()
-                                    }
-                                ))
-                                .toggleStyle(.switch)
-                                .controlSize(.mini)
-                                .labelsHidden()
+                                Toggle("", isOn: $configStore.config.isActive)
+                                    .toggleStyle(.switch)
+                                    .controlSize(.mini)
+                                    .labelsHidden()
                             }
                             
                             Divider()
@@ -116,16 +104,10 @@ struct SettingsView: View {
                             HStack {
                                 Text("Automatically check for updates")
                                 Spacer()
-                                Toggle("", isOn: Binding(
-                                    get: { configStore.config.autoCheckUpdates },
-                                    set: { newValue in
-                                        configStore.config.autoCheckUpdates = newValue
-                                        configStore.save()
-                                    }
-                                ))
-                                .toggleStyle(.switch)
-                                .controlSize(.mini)
-                                .labelsHidden()
+                                Toggle("", isOn: $configStore.config.autoCheckUpdates)
+                                    .toggleStyle(.switch)
+                                    .controlSize(.mini)
+                                    .labelsHidden()
                             }
                             
                             Divider()

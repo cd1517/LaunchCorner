@@ -11,11 +11,14 @@ class ConfigStore: ObservableObject {
         }
     }
     
-    private let userDefaultsKey = "NookAppConfig"
+    private let userDefaultsKey = "LaunchCornerAppConfig"
     
     init() {
         if let data = UserDefaults.standard.data(forKey: userDefaultsKey),
            let decoded = try? JSONDecoder().decode(AppConfig.self, from: data) {
+            self.config = decoded
+        } else if let oldData = UserDefaults.standard.data(forKey: "NookAppConfig"),
+                  let decoded = try? JSONDecoder().decode(AppConfig.self, from: oldData) {
             self.config = decoded
         } else {
             self.config = .default
