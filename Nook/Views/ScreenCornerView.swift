@@ -28,7 +28,7 @@ struct ScreenCornerView: View {
                     .resizable()
                     .frame(width: imageSize, height: imageSize)
                 
-                // Corner buttons overlaid at the exact blue circle locations outside display sides
+                // Corner buttons positioned at top and bottom outer corners of the MacBook display
                 VStack(spacing: 0) {
                     HStack(spacing: 0) {
                         CornerButton(corner: .topLeft, screenID: selectedScreenID) {
@@ -50,13 +50,14 @@ struct ScreenCornerView: View {
                         }
                     }
                 }
-                // Padding places buttons at the 4 blue circle locations around the MacBook display
-                .padding(.top, imageSize * 0.465)
-                .padding(.bottom, imageSize * 0.170)
-                .padding(.horizontal, imageSize * 0.175)
+                // Top padding 0.245 brings top buttons all the way up to top screen corners
+                // Horizontal padding 0.120 moves buttons out from the screen
+                .padding(.top, imageSize * 0.245)
+                .padding(.bottom, imageSize * 0.160)
+                .padding(.horizontal, imageSize * 0.120)
             }
             .frame(width: imageSize, height: imageSize)
-            .offset(y: -55)
+            .offset(y: -40)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .sheet(item: $activeSheet) { corner in
@@ -75,7 +76,7 @@ struct CornerButton: View {
     
     @State private var isHovering = false
     
-    private let buttonSize: CGFloat = 34
+    private let buttonSize: CGFloat = 42
     
     var body: some View {
         let screenConfig = configStore.cornerConfig(forScreenID: screenID)
@@ -84,12 +85,12 @@ struct CornerButton: View {
         Button(action: action) {
             ZStack {
                 Circle()
-                    .fill(Color.clear)
+                    .fill(Color.black.opacity(0.4))
                     .frame(width: buttonSize, height: buttonSize)
                     .overlay(
                         Circle()
                             .stroke(
-                                cornerAction.isConfigured ? Color.accentColor : Color.white.opacity(0.35),
+                                cornerAction.isConfigured ? Color.accentColor : Color.white.opacity(0.4),
                                 style: StrokeStyle(lineWidth: 1.5, dash: cornerAction.isConfigured ? [] : [4])
                             )
                     )
@@ -98,11 +99,11 @@ struct CornerButton: View {
                     Image(nsImage: icon)
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 18, height: 18)
+                        .frame(width: 24, height: 24)
                 } else {
                     Image(systemName: "plus")
-                        .font(.system(size: 11, weight: .medium))
-                        .foregroundColor(isHovering ? .accentColor : .white.opacity(0.45))
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundColor(isHovering ? .accentColor : .white.opacity(0.5))
                         .animation(.easeInOut(duration: 0.2), value: isHovering)
                 }
             }

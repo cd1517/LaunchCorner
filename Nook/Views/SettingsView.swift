@@ -167,11 +167,10 @@ struct SettingsView: View {
                     // About Section
                     GroupBox("About") {
                         VStack(alignment: .leading, spacing: 12) {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text("LaunchCorner Version \(appVersion)")
-                                    .fontWeight(.medium)
-                                Text("A lightweight hot-corner launcher for macOS.")
-                                    .font(.caption)
+                            HStack {
+                                Text("Version")
+                                Spacer()
+                                Text(appVersion)
                                     .foregroundColor(.secondary)
                             }
                             
@@ -207,12 +206,6 @@ struct SettingsView: View {
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                             }
-                            
-                            Divider()
-                            
-                            Text("Copyright © 2026 LaunchCorner by wenujacodes. All rights reserved.")
-                                .font(.caption2)
-                                .foregroundColor(.secondary)
                         }
                         .padding(8)
                     }

@@ -8,6 +8,9 @@ class MenuBarManager: NSObject {
     private let configStore: ConfigStore
     private var cancellables = Set<AnyCancellable>()
     
+    private let menu = NSMenu()
+    private var toggleItem: NSMenuItem?
+    
     var onOpenSettings: (() -> Void)?
     var onCheckForUpdates: (() -> Void)?
     
@@ -15,15 +18,51 @@ class MenuBarManager: NSObject {
         self.configStore = configStore
         super.init()
         
+        buildMenuOnce()
         setupObservers()
         updateMenuBarPresence()
+    }
+    
+    private func buildMenuOnce() {
+        menu.autoenablesItems = false
+        
+        // 1. LaunchCorner: Enabled / Disabled
+        let isON = configStore.config.isActive
+        let toggleTitle = isON ? "LaunchCorner: Enabled" : "LaunchCorner: Disabled"
+        let toggle = NSMenuItem(title: toggleTitle, action: #selector(toggleHotCorner), keyEquivalent: "")
+        toggle.target = self
+        toggle.isEnabled = true
+        menu.addItem(toggle)
+        self.toggleItem = toggle
+        
+        menu.addItem(NSMenuItem.separator())
+        
+        // 2. Settings...
+        let settingsItem = NSMenuItem(title: "Settings...", action: #selector(openSettings), keyEquivalent: ",")
+        settingsItem.target = self
+        settingsItem.isEnabled = true
+        menu.addItem(settingsItem)
+        
+        // 3. Check for Updates...
+        let updatesItem = NSMenuItem(title: "Check for Updates...", action: #selector(checkForUpdates), keyEquivalent: "")
+        updatesItem.target = self
+        updatesItem.isEnabled = true
+        menu.addItem(updatesItem)
+        
+        menu.addItem(NSMenuItem.separator())
+        
+        // 4. Quit LaunchCorner
+        let quitItem = NSMenuItem(title: "Quit LaunchCorner", action: #selector(quitApp), keyEquivalent: "q")
+        quitItem.target = self
+        quitItem.isEnabled = true
+        menu.addItem(quitItem)
     }
     
     private func setupObservers() {
         configStore.$config
             .sink { [weak self] _ in
                 self?.updateMenuBarPresence()
-                self?.updateMenu()
+                self?.updateToggleState()
             }
             .store(in: &cancellables)
     }
@@ -35,7 +74,7 @@ class MenuBarManager: NSObject {
                 if let button = statusItem?.button {
                     button.image = NSImage(systemSymbolName: "cursorarrow.square", accessibilityDescription: "LaunchCorner")
                 }
-                updateMenu()
+                statusItem?.menu = menu
             }
         } else {
             if let item = statusItem {
@@ -45,44 +84,15 @@ class MenuBarManager: NSObject {
         }
     }
     
-    func updateMenu() {
-        guard let statusItem = statusItem else { return }
-        
-        let menu = NSMenu()
-        
-        // 1. LaunchCorner: Enabled / Disabled (no checkmark tick)
+    private func updateToggleState() {
         let isON = configStore.config.isActive
-        let toggleTitle = isON ? "LaunchCorner: Enabled" : "LaunchCorner: Disabled"
-        let toggleItem = NSMenuItem(title: toggleTitle, action: #selector(toggleHotCorner), keyEquivalent: "")
-        toggleItem.target = self
-        menu.addItem(toggleItem)
-        
-        menu.addItem(NSMenuItem.separator())
-        
-        // 2. Settings...
-        let settingsItem = NSMenuItem(title: "Settings...", action: #selector(openSettings), keyEquivalent: ",")
-        settingsItem.target = self
-        menu.addItem(settingsItem)
-        
-        // 3. Check for Updates...
-        let updatesItem = NSMenuItem(title: "Check for Updates...", action: #selector(checkForUpdates), keyEquivalent: "")
-        updatesItem.target = self
-        menu.addItem(updatesItem)
-        
-        menu.addItem(NSMenuItem.separator())
-        
-        // 4. Quit LaunchCorner
-        let quitItem = NSMenuItem(title: "Quit LaunchCorner", action: #selector(quitApp), keyEquivalent: "q")
-        quitItem.target = self
-        menu.addItem(quitItem)
-        
-        statusItem.menu = menu
+        toggleItem?.title = isON ? "LaunchCorner: Enabled" : "LaunchCorner: Disabled"
     }
     
     @objc private func toggleHotCorner() {
         configStore.config.isActive.toggle()
         configStore.save()
-        updateMenu()
+        updateToggleState()
     }
     
     @objc private func openSettings() {
