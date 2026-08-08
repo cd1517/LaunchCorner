@@ -1,0 +1,232 @@
+{
+  "source": "/Users/wenujaliyanamana/Desktop/LaunchCorner/LaunchCorner/Views/SettingsView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Reset Everything?",
+        "location": {
+          "startingColumn": 16,
+          "startingLine": 201
+        }
+      },
+      {
+        "comment": "",
+        "key": "General",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 31
+        }
+      },
+      {
+        "comment": "",
+        "key": "Sensitivity",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 82
+        }
+      },
+      {
+        "comment": "",
+        "key": "Updates",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 102
+        }
+      },
+      {
+        "comment": "",
+        "key": "Danger Zone",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 136
+        }
+      },
+      {
+        "comment": "",
+        "key": "About",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 150
+        }
+      },
+      {
+        "comment": "",
+        "key": "Settings",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 23
+        }
+      },
+      {
+        "comment": "",
+        "key": "Show in Menu Bar",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 34
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 40,
+          "startingLine": 36
+        }
+      },
+      {
+        "comment": "",
+        "key": "Enable LaunchCorner",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 45
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 40,
+          "startingLine": 47
+        }
+      },
+      {
+        "comment": "",
+        "key": "Launch at Login",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 56
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 40,
+          "startingLine": 58
+        }
+      },
+      {
+        "comment": "",
+        "key": "How long the cursor rests in a corner before triggering. Set to 0 ms for instant response.",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 93
+        }
+      },
+      {
+        "comment": "",
+        "key": "Dwell Time",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 86
+        }
+      },
+      {
+        "comment": "",
+        "key": "Automatically check for updates",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 105
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 40,
+          "startingLine": 107
+        }
+      },
+      {
+        "comment": "",
+        "key": "Check Now",
+        "location": {
+          "startingColumn": 40,
+          "startingLine": 125
+        }
+      },
+      {
+        "comment": "",
+        "key": "Software Update",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 117
+        }
+      },
+      {
+        "comment": "",
+        "key": "Reset All Configurations",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 138
+        }
+      },
+      {
+        "comment": "",
+        "key": "Reset",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 140
+        }
+      },
+      {
+        "comment": "",
+        "key": "Version",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 153
+        }
+      },
+      {
+        "comment": "",
+        "key": "Report an Issue",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 162
+        }
+      },
+      {
+        "comment": "",
+        "key": "GitHub",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 173
+        }
+      },
+      {
+        "comment": "",
+        "key": "X (Twitter)",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 184
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 202
+        }
+      },
+      {
+        "comment": "",
+        "key": "Reset All",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 203
+        }
+      },
+      {
+        "comment": "",
+        "key": "This will reset all corner assignments and sensitivity settings to defaults.",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 214
+        }
+      }
+    ]
+  },
+  "version": 1
+}
