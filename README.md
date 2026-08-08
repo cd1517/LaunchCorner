@@ -1,4 +1,4 @@
-# 🎯 LaunchCorner
+# LaunchCorner
 
 > A lightweight, modern hot-corner app launcher for macOS.
 
@@ -11,7 +11,7 @@
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 <!-- REPLACE THE IMAGE LINKS BELOW WITH YOUR ACTUAL SCREENSHOTS -->
 
@@ -22,26 +22,22 @@
 
 <br />
 
-<div align="center">
-  <img src="docs/screenshots/settings.png" alt="LaunchCorner Settings" width="460" />
-  <p><em>Settings, Dwell Time & Sensitivity Panel</em></p>
-</div>
 
 ---
 
-## ✨ Key Features
+## Key Features
 
-- **⚡ Instant Hot Corners**: Move your cursor to any of the 4 screen corners to trigger assigned applications.
-- **🚀 Native & Ultra-Fast**: Built natively with Swift & SwiftUI for zero latency and minimal CPU/memory footprint.
-- **💻 Universal 2 Binary**: Native support for both **Apple Silicon** (M1/M2/M3/M4) and **Intel MacBooks**.
-- **⏱️ Dwell Time & Sensitivity**: Fine-tune trigger response down to **0 ms (Instant)**.
-- **🖥️ Multi-Monitor Support**: Works seamlessly across multiple connected displays.
-- **📌 Menu Bar & Dock Modes**: Runs quietly in the macOS Menu Bar and automatically hides from the Dock when closed.
-- **🔓 Open Source**: 100% free and open-source under the MIT license.
+- **Instant Hot Corners**: Move your cursor to any of the 4 screen corners to trigger assigned applications.
+- **Native & Ultra-Fast**: Built natively with Swift & SwiftUI for zero latency and minimal CPU/memory footprint.
+- **Universal 2 Binary**: Native support for both **Apple Silicon** (M1/M2/M3/M4) and **Intel MacBooks**.
+- **Dwell Time & Sensitivity**: Fine-tune trigger response down to **0 ms (Instant)**.
+- **Multi-Monitor Support**: Works seamlessly across multiple connected displays.
+- **Menu Bar & Dock Modes**: Runs quietly in the macOS Menu Bar and automatically hides from the Dock when closed.
+- **Open Source**: 100% free and open-source under the MIT license.
 
 ---
 
-## 📥 Installation
+## Installation
 
 1. Download `LaunchCorner.zip` from the latest [Release](https://github.com/wenujacodes/LaunchCorner/releases).
 2. Extract `LaunchCorner.app` and move it to your `/Applications` folder.
@@ -49,7 +45,7 @@
 
 ---
 
-## 🛠️ Building from Source
+## Building from Source
 
 ```bash
 # Clone repository
@@ -67,6 +63,6 @@ To build a release package (`LaunchCorner.zip`) locally:
 
 ---
 
-## 📄 License
+## License
 
 Distributed under the **MIT License**. Created by [@wenujacodes](https://github.com/wenujacodes).
