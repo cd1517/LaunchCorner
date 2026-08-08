@@ -28,7 +28,7 @@ struct ScreenCornerView: View {
                     .resizable()
                     .frame(width: imageSize, height: imageSize)
                 
-                // Corner buttons positioned at top and bottom outer corners of the MacBook display
+                // Corner buttons moved out away from the MacBook screen to the left and right sides
                 VStack(spacing: 0) {
                     HStack(spacing: 0) {
                         CornerButton(corner: .topLeft, screenID: selectedScreenID) {
@@ -50,11 +50,11 @@ struct ScreenCornerView: View {
                         }
                     }
                 }
-                // Top padding 0.245 brings top buttons all the way up to top screen corners
-                // Horizontal padding 0.120 moves buttons out from the screen
-                .padding(.top, imageSize * 0.245)
+                // Top padding 0.350 aligns top buttons with top corners of display
+                // Horizontal padding 0.050 moves buttons far out to the left and right sides away from screen
+                .padding(.top, imageSize * 0.350)
                 .padding(.bottom, imageSize * 0.160)
-                .padding(.horizontal, imageSize * 0.120)
+                .padding(.horizontal, imageSize * 0.050)
             }
             .frame(width: imageSize, height: imageSize)
             .offset(y: -40)

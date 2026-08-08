@@ -23,7 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		777777777777777777777777 /* Nook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nook.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		777777777777777777777777 /* LaunchCorner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LaunchCorner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B00000000000000000000000 /* NookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NookApp.swift; sourceTree = "<group>"; };
 		B10000000000000000000000 /* CornerConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CornerConfig.swift; sourceTree = "<group>"; };
 		B20000000000000000000000 /* CornerDetectionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CornerDetectionEngine.swift; sourceTree = "<group>"; };
@@ -109,7 +109,7 @@
 		555555555555555555555555 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				777777777777777777777777 /* Nook.app */,
+				777777777777777777777777 /* LaunchCorner.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -130,8 +130,8 @@
 			dependencies = (
 			);
 			name = Nook;
-			productName = Nook;
-			productReference = 777777777777777777777777 /* Nook.app */;
+			productName = LaunchCorner;
+			productReference = 777777777777777777777777 /* LaunchCorner.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -330,8 +330,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.nook.hotcorner;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.launchcorner.app;
+				PRODUCT_NAME = LaunchCorner;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -355,8 +355,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.nook.hotcorner;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.launchcorner.app;
+				PRODUCT_NAME = LaunchCorner;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};

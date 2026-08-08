@@ -70,16 +70,23 @@ class MenuBarManager: NSObject {
     func updateMenuBarPresence() {
         if configStore.config.showInMenuBar {
             if statusItem == nil {
-                statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-                if let button = statusItem?.button {
+                let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+                if let button = item.button {
                     button.image = NSImage(systemSymbolName: "cursorarrow.square", accessibilityDescription: "LaunchCorner")
                 }
-                statusItem?.menu = menu
+                item.menu = menu
+                statusItem = item
             }
         } else {
             if let item = statusItem {
                 NSStatusBar.system.removeStatusItem(item)
                 statusItem = nil
+            }
+            // Ensure app window is visible in Dock when Menu Bar item is disabled
+            NSApp.setActivationPolicy(.regular)
+            if let window = NSApp.windows.first, !window.isVisible {
+                window.makeKeyAndOrderFront(nil)
+                NSApp.activate(ignoringOtherApps: true)
             }
         }
     }
