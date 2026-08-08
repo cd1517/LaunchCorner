@@ -17,21 +17,23 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     var appState: AppState?
     
     func applicationDidFinishLaunching(_ notification: Notification) {
-        DispatchQueue.main.async { [weak self] in
-            if let window = NSApp.windows.first {
-                window.delegate = self
-            }
-        }
+        // Observe window closing to remove icon from Dock when running in menu bar
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleWindowWillClose(_:)),
+            name: NSWindow.willCloseNotification,
+            object: nil
+        )
     }
     
-    func windowShouldClose(_ sender: NSWindow) -> Bool {
-        if let configStore = appState?.configStore, configStore.config.showInMenuBar {
-            sender.orderOut(nil)
-            // Removes icon from Dock when window is closed, running purely as a Menu Bar app
-            NSApp.setActivationPolicy(.accessory)
-            return false
+    @objc private func handleWindowWillClose(_ notification: Notification) {
+        Task { @MainActor [weak self] in
+            guard let window = notification.object as? NSWindow, window.isKeyWindow || NSApp.windows.contains(window) else { return }
+            
+            if let configStore = self?.appState?.configStore, configStore.config.showInMenuBar {
+                NSApp.setActivationPolicy(.accessory)
+            }
         }
-        return true
     }
     
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
@@ -40,10 +42,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
     
     func showMainWindow() {
-        NSApp.setActivationPolicy(.regular)
-        if let window = NSApp.windows.first {
-            window.makeKeyAndOrderFront(nil)
-            NSApp.activate(ignoringOtherApps: true)
+        Task { @MainActor in
+            NSApp.setActivationPolicy(.regular)
+            if let window = NSApp.windows.first {
+                window.makeKeyAndOrderFront(nil)
+                NSApp.activate(ignoringOtherApps: true)
+            }
         }
     }
 }
