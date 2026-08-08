@@ -81,9 +81,14 @@ class MenuBarManager: NSObject {
         let shouldShow = showInMenuBar ?? configStore.config.showInMenuBar
         if shouldShow {
             if statusItem == nil {
-                let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+                let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
                 if let button = item.button {
-                    button.image = NSImage(systemSymbolName: "cursorarrow.square", accessibilityDescription: "LaunchCorner")
+                    if let customIcon = NSImage(named: "MenuBarIcon") {
+                        customIcon.isTemplate = true
+                        button.image = customIcon
+                    } else {
+                        button.image = NSImage(systemSymbolName: "cursorarrow.square", accessibilityDescription: "LaunchCorner")
+                    }
                 }
                 item.menu = menu
                 statusItem = item

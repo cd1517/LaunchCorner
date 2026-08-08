@@ -65,6 +65,7 @@ struct LaunchCornerApp: App {
                 .environmentObject(appState.engine)
                 .onAppear {
                     appDelegate.appState = appState
+                    appDelegate.showMainWindow()
                     _ = appState.menuBarManager
                     
                     let delegate = appDelegate
