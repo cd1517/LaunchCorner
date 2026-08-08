@@ -13,15 +13,18 @@
 
 ## Screenshots
 
-<!-- REPLACE THE IMAGE LINKS BELOW WITH YOUR ACTUAL SCREENSHOTS -->
-
 <div align="center">
-  <img src="docs/screenshots/main-interface.png" alt="LaunchCorner Main Interface" width="640" />
-  <p><em>Main Screen Corner Configuration Interface</em></p>
+  <h3>1. Onboarding & Accessibility Permission</h3>
+  <img src="docs/screenshots/onboarding.png" alt="LaunchCorner Onboarding" width="600" />
+  <br /><br />
+  
+  <h3>2. Main Corner Configuration</h3>
+  <img src="docs/screenshots/main-interface.png" alt="LaunchCorner Main Interface" width="600" />
+  <br /><br />
+  
+  <h3>3. Settings & Sensitivity Controls</h3>
+  <img src="docs/screenshots/settings.png" alt="LaunchCorner Settings" width="600" />
 </div>
-
-<br />
-
 
 ---
 

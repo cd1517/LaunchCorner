@@ -57,7 +57,7 @@ struct ScreenCornerView: View {
                 .padding(.horizontal, imageSize * 0.050)
             }
             .frame(width: imageSize, height: imageSize)
-            .offset(y: -40)
+            .offset(y: -60)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .sheet(item: $activeSheet) { corner in
