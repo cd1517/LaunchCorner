@@ -33,7 +33,7 @@ class MenuBarManager: NSObject {
             if statusItem == nil {
                 statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
                 if let button = statusItem?.button {
-                    button.image = NSImage(systemSymbolName: "cursorarrow.square", accessibilityDescription: "Nook")
+                    button.image = NSImage(systemSymbolName: "cursorarrow.square", accessibilityDescription: "LaunchCorner")
                 }
                 updateMenu()
             }
@@ -50,14 +50,11 @@ class MenuBarManager: NSObject {
         
         let menu = NSMenu()
         
-        // 1. Hot Corner: ON / OFF
+        // 1. LaunchCorner: Enabled / Disabled (no checkmark tick)
         let isON = configStore.config.isActive
-        let toggleTitle = isON ? "Hot Corner: ON" : "Hot Corner: OFF"
+        let toggleTitle = isON ? "LaunchCorner: Enabled" : "LaunchCorner: Disabled"
         let toggleItem = NSMenuItem(title: toggleTitle, action: #selector(toggleHotCorner), keyEquivalent: "")
         toggleItem.target = self
-        if isON {
-            toggleItem.state = .on
-        }
         menu.addItem(toggleItem)
         
         menu.addItem(NSMenuItem.separator())
@@ -72,15 +69,10 @@ class MenuBarManager: NSObject {
         updatesItem.target = self
         menu.addItem(updatesItem)
         
-        // 4. About Nook
-        let aboutItem = NSMenuItem(title: "About Nook", action: #selector(openAbout), keyEquivalent: "")
-        aboutItem.target = self
-        menu.addItem(aboutItem)
-        
         menu.addItem(NSMenuItem.separator())
         
-        // 5. Quit Nook
-        let quitItem = NSMenuItem(title: "Quit Nook", action: #selector(quitApp), keyEquivalent: "q")
+        // 4. Quit LaunchCorner
+        let quitItem = NSMenuItem(title: "Quit LaunchCorner", action: #selector(quitApp), keyEquivalent: "q")
         quitItem.target = self
         menu.addItem(quitItem)
         
@@ -99,10 +91,6 @@ class MenuBarManager: NSObject {
     
     @objc private func checkForUpdates() {
         onCheckForUpdates?()
-    }
-    
-    @objc private func openAbout() {
-        onOpenSettings?()
     }
     
     @objc private func quitApp() {

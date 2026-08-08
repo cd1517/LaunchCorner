@@ -28,7 +28,7 @@ struct ScreenCornerView: View {
                     .resizable()
                     .frame(width: imageSize, height: imageSize)
                 
-                // Corner buttons overlaid directly inside the MacBook screen corners (blue circles)
+                // Corner buttons overlaid at the exact blue circle locations outside display sides
                 VStack(spacing: 0) {
                     HStack(spacing: 0) {
                         CornerButton(corner: .topLeft, screenID: selectedScreenID) {
@@ -50,13 +50,13 @@ struct ScreenCornerView: View {
                         }
                     }
                 }
-                // Tuned to map buttons precisely onto the 4 corners inside the black display area
-                .padding(.top, imageSize * 0.485)
+                // Padding places buttons at the 4 blue circle locations around the MacBook display
+                .padding(.top, imageSize * 0.465)
                 .padding(.bottom, imageSize * 0.170)
-                .padding(.horizontal, imageSize * 0.270)
+                .padding(.horizontal, imageSize * 0.175)
             }
             .frame(width: imageSize, height: imageSize)
-            .offset(y: -55) // Shifts MacBook screen up into the vertical center of the window
+            .offset(y: -55)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .sheet(item: $activeSheet) { corner in

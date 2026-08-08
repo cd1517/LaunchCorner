@@ -16,7 +16,7 @@ struct PermissionView: View {
                 .padding(.bottom, 20)
             
             // Title
-            Text("Welcome to Nook")
+            Text("Welcome to LaunchCorner")
                 .font(.title)
                 .fontWeight(.semibold)
                 .foregroundStyle(.primary)
@@ -28,7 +28,7 @@ struct PermissionView: View {
                 .foregroundStyle(.secondary)
                 .padding(.bottom, 36)
             
-            // Feature list — Kaset style
+            // Feature list
             VStack(alignment: .leading, spacing: 24) {
                 featureRow(
                     icon: "cursorarrow.motionlines",
@@ -45,7 +45,7 @@ struct PermissionView: View {
                 featureRow(
                     icon: "gearshape",
                     title: "Customizable",
-                    description: "Adjust sensitivity, dwell time, and hit zone size"
+                    description: "Adjust sensitivity and dwell time"
                 )
                 
                 featureRow(
@@ -58,7 +58,7 @@ struct PermissionView: View {
             
             Spacer()
             
-            // Action button — solid accent color, compact
+            // Action button
             Button(action: {
                 permissionManager.openAccessibilitySettings()
             }) {

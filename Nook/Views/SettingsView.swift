@@ -48,7 +48,7 @@ struct SettingsView: View {
                             Divider()
                             
                             HStack {
-                                Text("Enable Hot Corner")
+                                Text("Enable LaunchCorner")
                                 Spacer()
                                 Toggle("", isOn: Binding(
                                     get: { configStore.config.isActive },
@@ -168,7 +168,7 @@ struct SettingsView: View {
                     GroupBox("About") {
                         VStack(alignment: .leading, spacing: 12) {
                             VStack(alignment: .leading, spacing: 4) {
-                                Text("Nook Version \(appVersion)")
+                                Text("LaunchCorner Version \(appVersion)")
                                     .fontWeight(.medium)
                                 Text("A lightweight hot-corner launcher for macOS.")
                                     .font(.caption)
@@ -189,7 +189,7 @@ struct SettingsView: View {
                             Divider()
                             
                             HStack {
-                                Link("GitHub (@wenujacodes)", destination: URL(string: "https://github.com/wenujacodes")!)
+                                Link("GitHub", destination: URL(string: "https://github.com/wenujacodes")!)
                                     .foregroundColor(.accentColor)
                                 Spacer()
                                 Image(systemName: "arrow.up.right.square")
@@ -200,13 +200,19 @@ struct SettingsView: View {
                             Divider()
                             
                             HStack {
-                                Link("X / Twitter (@wenujacodes)", destination: URL(string: "https://x.com/wenujacodes")!)
+                                Link("X (Twitter)", destination: URL(string: "https://x.com/wenujacodes")!)
                                     .foregroundColor(.accentColor)
                                 Spacer()
                                 Image(systemName: "arrow.up.right.square")
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                             }
+                            
+                            Divider()
+                            
+                            Text("Copyright © 2026 LaunchCorner by wenujacodes. All rights reserved.")
+                                .font(.caption2)
+                                .foregroundColor(.secondary)
                         }
                         .padding(8)
                     }

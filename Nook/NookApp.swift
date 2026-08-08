@@ -54,7 +54,7 @@ struct NookApp: App {
     @StateObject private var appState = AppState()
     
     var body: some Scene {
-        WindowGroup("Nook") {
+        WindowGroup("LaunchCorner") {
             MainView()
                 .environmentObject(appState.configStore)
                 .environmentObject(appState.permissionManager)
