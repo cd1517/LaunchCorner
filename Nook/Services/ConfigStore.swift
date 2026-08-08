@@ -5,9 +5,12 @@ import Combine
 // Observable store that persists AppConfig to UserDefaults
 @MainActor
 class ConfigStore: ObservableObject {
+    let configDidChange = PassthroughSubject<AppConfig, Never>()
+    
     @Published var config: AppConfig {
         didSet {
             save()
+            configDidChange.send(config)
         }
     }
     

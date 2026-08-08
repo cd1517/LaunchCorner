@@ -60,15 +60,15 @@ class MenuBarManager: NSObject {
     }
     
     private func setupObservers() {
-        configStore.$config
+        configStore.configDidChange
             .map { $0.showInMenuBar }
             .removeDuplicates()
-            .sink { [weak self] _ in
-                self?.updateMenuBarPresence()
+            .sink { [weak self] showInMenuBar in
+                self?.updateMenuBarPresence(showInMenuBar: showInMenuBar)
             }
             .store(in: &cancellables)
             
-        configStore.$config
+        configStore.configDidChange
             .map { $0.isActive }
             .removeDuplicates()
             .sink { [weak self] _ in
@@ -77,8 +77,9 @@ class MenuBarManager: NSObject {
             .store(in: &cancellables)
     }
     
-    func updateMenuBarPresence() {
-        if configStore.config.showInMenuBar {
+    func updateMenuBarPresence(showInMenuBar: Bool? = nil) {
+        let shouldShow = showInMenuBar ?? configStore.config.showInMenuBar
+        if shouldShow {
             if statusItem == nil {
                 let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
                 if let button = item.button {
