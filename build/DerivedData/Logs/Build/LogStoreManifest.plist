@@ -6,7 +6,7 @@
 	<integer>13</integer>
 	<key>logs</key>
 	<dict>
-		<key>6E85DEDE-CCC0-4FE8-964C-A1B9A0626D00</key>
+		<key>85D8B23F-F843-4C84-9360-B5FBA0BEEB00</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -15,13 +15,13 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>6E85DEDE-CCC0-4FE8-964C-A1B9A0626D00.xcactivitylog</string>
+			<string>85D8B23F-F843-4C84-9360-B5FBA0BEEB00.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
 			<dict>
 				<key>highLevelStatus</key>
-				<string>W</string>
+				<string>S</string>
 				<key>totalNumberOfAnalyzerIssues</key>
 				<integer>0</integer>
 				<key>totalNumberOfErrors</key>
@@ -29,7 +29,7 @@
 				<key>totalNumberOfTestFailures</key>
 				<integer>0</integer>
 				<key>totalNumberOfWarnings</key>
-				<integer>2</integer>
+				<integer>0</integer>
 			</dict>
 			<key>schemeIdentifier-containerName</key>
 			<string>LaunchCorner project</string>
@@ -40,13 +40,13 @@
 			<key>signature</key>
 			<string>Building project LaunchCorner with scheme LaunchCorner and configuration Release</string>
 			<key>timeStartedRecording</key>
-			<real>807887903.57901502</real>
+			<real>807888576.31198204</real>
 			<key>timeStoppedRecording</key>
-			<real>807887907.64434099</real>
+			<real>807888577.54590201</real>
 			<key>title</key>
 			<string>Building project LaunchCorner with scheme LaunchCorner and configuration Release</string>
 			<key>uniqueIdentifier</key>
-			<string>6E85DEDE-CCC0-4FE8-964C-A1B9A0626D00</string>
+			<string>85D8B23F-F843-4C84-9360-B5FBA0BEEB00</string>
 		</dict>
 		<key>E10F0E98-A7FA-4E2E-89A6-E5B10FDF7CE1</key>
 		<dict>
