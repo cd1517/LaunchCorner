@@ -25,5 +25,12 @@ struct NookApp: App {
                 .preferredColorScheme(.dark)
         }
         .windowResizability(.contentSize)
+        
+        // Cmd+, opens Settings
+        Settings {
+            SettingsView()
+                .environmentObject(appState.configStore)
+                .preferredColorScheme(.dark)
+        }
     }
 }

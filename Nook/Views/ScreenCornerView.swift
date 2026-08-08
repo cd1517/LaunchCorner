@@ -7,12 +7,18 @@ struct ScreenCornerView: View {
     @State private var selectedScreenID: String? = nil
     @State private var activeSheet: Corner? = nil
     
-    // Fixed image size so buttons never drift
-    private let imageWidth: CGFloat = 480
-    private let imageHeight: CGFloat = 320
+    // Image rendered at this fixed size — fills the window nicely
+    private let imageSize: CGFloat = 500
+    
+    // Display area percentages measured from the 1500x1500 source image
+    // Buttons sit right at the display edges (no inset)
+    private let displayTopPct:    CGFloat = 0.265
+    private let displayBottomPct: CGFloat = 0.790
+    private let displayLeftPct:   CGFloat = 0.140
+    private let displayRightPct:  CGFloat = 0.860
     
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 12) {
             if NSScreen.screens.count > 1 {
                 Picker("Monitor", selection: $selectedScreenID) {
                     Text("All Screens").tag(String?.none)
@@ -24,43 +30,39 @@ struct ScreenCornerView: View {
                 .frame(width: 250)
             }
             
-            // Mac screen image at a fixed size with corner buttons inside the display
+            // Mac image with corner buttons at the exact display edges
             ZStack {
                 Image("mac-screen")
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: imageWidth, height: imageHeight)
-                    .shadow(color: Color.black.opacity(0.3), radius: 20, x: 0, y: 10)
+                    .frame(width: imageSize, height: imageSize)
                 
-                // Corner buttons at fixed pixel positions inside the screen area
-                // These offsets are tuned to place buttons inside the display bezel
-                let screenLeft: CGFloat = imageWidth * 0.115
-                let screenRight: CGFloat = imageWidth * (1.0 - 0.115)
-                let screenTop: CGFloat = imageHeight * 0.04
-                let screenBottom: CGFloat = imageHeight * (1.0 - 0.16)
-                let inset: CGFloat = 24  // how far inward from screen edge
+                // Buttons positioned at the very edges of the display area
+                let dLeft   = imageSize * displayLeftPct
+                let dRight  = imageSize * displayRightPct
+                let dTop    = imageSize * displayTopPct
+                let dBottom = imageSize * displayBottomPct
                 
                 CornerButton(corner: .topLeft, screenID: selectedScreenID) {
                     activeSheet = .topLeft
                 }
-                .position(x: screenLeft + inset, y: screenTop + inset)
+                .position(x: dLeft, y: dTop)
                 
                 CornerButton(corner: .topRight, screenID: selectedScreenID) {
                     activeSheet = .topRight
                 }
-                .position(x: screenRight - inset, y: screenTop + inset)
+                .position(x: dRight, y: dTop)
                 
                 CornerButton(corner: .bottomLeft, screenID: selectedScreenID) {
                     activeSheet = .bottomLeft
                 }
-                .position(x: screenLeft + inset, y: screenBottom - inset)
+                .position(x: dLeft, y: dBottom)
                 
                 CornerButton(corner: .bottomRight, screenID: selectedScreenID) {
                     activeSheet = .bottomRight
                 }
-                .position(x: screenRight - inset, y: screenBottom - inset)
+                .position(x: dRight, y: dBottom)
             }
-            .frame(width: imageWidth, height: imageHeight)
+            .frame(width: imageSize, height: imageSize)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .sheet(item: $activeSheet) { corner in
@@ -79,7 +81,7 @@ struct CornerButton: View {
     
     @State private var isHovering = false
     
-    private let buttonSize: CGFloat = 44
+    private let buttonSize: CGFloat = 38
     
     var body: some View {
         let screenConfig = configStore.cornerConfig(forScreenID: screenID)
@@ -102,10 +104,10 @@ struct CornerButton: View {
                     Image(nsImage: icon)
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 28, height: 28)
+                        .frame(width: 22, height: 22)
                 } else {
                     Image(systemName: "plus")
-                        .font(.system(size: 16, weight: .medium))
+                        .font(.system(size: 13, weight: .medium))
                         .foregroundColor(isHovering ? .accentColor : .white.opacity(0.4))
                         .animation(.easeInOut(duration: 0.2), value: isHovering)
                 }

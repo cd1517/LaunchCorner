@@ -18,8 +18,11 @@ struct MainView: View {
                         showingSettings = true
                     }) {
                         Image(systemName: "gearshape.fill")
-                            .font(.body)
+                            .font(.system(size: 12))
                             .foregroundColor(.secondary)
+                            .frame(width: 28, height: 28)
+                            .background(.ultraThinMaterial)
+                            .clipShape(Circle())
                     }
                     .buttonStyle(.plain)
                 }
@@ -39,7 +42,7 @@ struct MainView: View {
             }
             .animation(.spring(response: 0.5, dampingFraction: 0.8), value: permissionManager.isAccessibilityGranted)
         }
-        .frame(width: 660, height: 500)
+        .frame(width: 660, height: 540)
         .background(Color(NSColor.underPageBackgroundColor))
         .sheet(isPresented: $showingSettings) {
             SettingsView()

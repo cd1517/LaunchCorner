@@ -6,6 +6,7 @@ struct SettingsView: View {
     @EnvironmentObject var configStore: ConfigStore
     
     @AppStorage("launchAtLogin") private var launchAtLogin = false
+    @State private var showResetConfirmation = false
     
     var body: some View {
         VStack(spacing: 0) {
@@ -98,9 +99,7 @@ struct SettingsView: View {
                             Text("Reset All Configurations")
                             Spacer()
                             Button("Reset") {
-                                configStore.config.screenConfigs.removeAll()
-                                configStore.config.defaultConfig = .empty
-                                configStore.save()
+                                showResetConfirmation = true
                             }
                             .foregroundColor(.red)
                         }
@@ -112,5 +111,20 @@ struct SettingsView: View {
         }
         .frame(width: 450, height: 500)
         .background(Color(NSColor.windowBackgroundColor))
+        .alert("Reset Everything?", isPresented: $showResetConfirmation) {
+            Button("Cancel", role: .cancel) {}
+            Button("Reset All", role: .destructive) {
+                // Reset corner assignments
+                configStore.config.screenConfigs.removeAll()
+                configStore.config.defaultConfig = .empty
+                // Reset sensitivity to defaults
+                configStore.config.dwellTime = 0.2
+                configStore.config.hitZoneSize = 10
+                configStore.config.monitorMode = .allScreens
+                configStore.save()
+            }
+        } message: {
+            Text("This will reset all corner assignments and sensitivity settings to defaults.")
+        }
     }
 }

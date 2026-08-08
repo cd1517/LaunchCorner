@@ -14,7 +14,7 @@ extension NSScreen {
 @MainActor
 class CornerDetectionEngine: ObservableObject {
     @Published var isActive: Bool = false
-    @Published var lastTriggeredCorner: Corner? = nil // for visual feedback
+    @Published var lastTriggeredCorner: Corner? = nil
     
     private var globalMonitor: Any?
     private var localMonitor: Any?
@@ -96,7 +96,6 @@ class CornerDetectionEngine: ObservableObject {
         for screen in NSScreen.screens {
             guard let screenID = screen.displayID else { continue }
             
-            // Filter based on monitor mode
             switch configStore.config.monitorMode {
             case .allScreens:
                 break
@@ -154,8 +153,8 @@ class CornerDetectionEngine: ObservableObject {
         ActionExecutor.execute(action)
         lastTriggeredCorner = corner
         
-        // Reset lastTriggeredCorner for UI visual feedback after a short delay
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+        // Clear visual feedback quickly
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
             if self?.lastTriggeredCorner == corner {
                 self?.lastTriggeredCorner = nil
             }
@@ -166,11 +165,15 @@ class CornerDetectionEngine: ObservableObject {
     
     private func startCooldown() {
         cooldownActive = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+        // Very short cooldown — allows rapid re-triggering
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
             self?.cooldownActive = false
-            // Check mouse position again after cooldown
-            if let event = NSApp.currentEvent, event.type == .mouseMoved {
-                self?.handleMouseMoved(event: event)
+            self?.currentCorner = nil
+            // Re-check current mouse position immediately
+            let location = NSEvent.mouseLocation
+            if let detected = self?.detectCorner(at: location) {
+                self?.currentCorner = detected
+                self?.startDwellTimer(for: detected.corner, screenID: detected.screenID)
             }
         }
     }
