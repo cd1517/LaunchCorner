@@ -1,0 +1,8 @@
+# Ignore Xcode project files & generated metadata from GitHub language statistics
+*.pbxproj linguist-generated=true
+*.pbxproj linguist-vendored=true
+*.xcworkspacedata linguist-generated=true
+*.xcscheme linguist-generated=true
+*.plist linguist-generated=true
+build/** linguist-generated=true
+scripts/** linguist-documentation=true
