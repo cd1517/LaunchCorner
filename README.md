@@ -14,15 +14,15 @@
 ## Screenshots
 
 <div align="center">
-  <h5>Onboarding & Accessibility Permission</h3>
+  <h5>1. Onboarding & Accessibility Permission</h3>
   <img src="docs/screenshots/onboarding.png" alt="LaunchCorner Onboarding" width="600" />
   <br /><br />
   
-  <h5>Main Corner Configuration</h3>
+  <h5>2. Main Corner Configuration</h3>
   <img src="docs/screenshots/main-interface.png" alt="LaunchCorner Main Interface" width="600" />
   <br /><br />
   
-  <h5>Settings & Sensitivity Controls</h3>
+  <h5>3. Settings & Sensitivity Controls</h3>
   <img src="docs/screenshots/settings.png" alt="LaunchCorner Settings" width="600" />
 </div>
 
@@ -32,7 +32,7 @@
 
 - **Instant Hot Corners**: Move your cursor to any of the 4 screen corners to trigger assigned applications.
 - **Native & Ultra-Fast**: Built natively with Swift & SwiftUI for zero latency and minimal CPU/memory footprint.
-- **Universal 2 Binary**: Native support for both **Apple Silicon** and **Intel MacBooks**.
+- **Universal 2 Binary**: Native support for both **Apple Silicon** (M1/M2/M3/M4) and **Intel MacBooks**.
 - **Dwell Time & Sensitivity**: Fine-tune trigger response down to **0 ms (Instant)**.
 - **Multi-Monitor Support**: Works seamlessly across multiple connected displays.
 - **Menu Bar & Dock Modes**: Runs quietly in the macOS Menu Bar and automatically hides from the Dock when closed.
@@ -42,9 +42,10 @@
 
 ## Installation
 
-1. Download `LaunchCorner.zip` from the latest [Release](https://github.com/wenujacodes/LaunchCorner/releases).
-2. Extract `LaunchCorner.app` and move it to your `/Applications` folder.
-3. Launch **LaunchCorner** and grant **Accessibility Access** when prompted (*System Settings > Privacy & Security > Accessibility*).
+1. Download **`LaunchCorner.dmg`** from the latest [Release](https://github.com/wenujacodes/LaunchCorner/releases).
+2. Double-click `LaunchCorner.dmg` to open the installer.
+3. Drag **LaunchCorner** into your **Applications** folder.
+4. Open **LaunchCorner** and grant **Accessibility Access** when prompted (*System Settings > Privacy & Security > Accessibility*).
 
 ---
 
@@ -59,7 +60,7 @@ cd LaunchCorner
 open LaunchCorner.xcodeproj
 ```
 
-To build a release package (`LaunchCorner.zip`) locally:
+To generate the installer (`LaunchCorner.dmg`) locally:
 ```bash
 ./scripts/build_release.sh
 ```

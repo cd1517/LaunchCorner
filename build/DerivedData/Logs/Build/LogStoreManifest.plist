@@ -6,7 +6,7 @@
 	<integer>13</integer>
 	<key>logs</key>
 	<dict>
-		<key>85D8B23F-F843-4C84-9360-B5FBA0BEEB00</key>
+		<key>5E3F4773-439A-4D95-A954-60B9A220C6B2</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -15,7 +15,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>85D8B23F-F843-4C84-9360-B5FBA0BEEB00.xcactivitylog</string>
+			<string>5E3F4773-439A-4D95-A954-60B9A220C6B2.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -40,15 +40,15 @@
 			<key>signature</key>
 			<string>Building project LaunchCorner with scheme LaunchCorner and configuration Release</string>
 			<key>timeStartedRecording</key>
-			<real>807888576.31198204</real>
+			<real>807890216.103508</real>
 			<key>timeStoppedRecording</key>
-			<real>807888577.54590201</real>
+			<real>807890223.04544497</real>
 			<key>title</key>
 			<string>Building project LaunchCorner with scheme LaunchCorner and configuration Release</string>
 			<key>uniqueIdentifier</key>
-			<string>85D8B23F-F843-4C84-9360-B5FBA0BEEB00</string>
+			<string>5E3F4773-439A-4D95-A954-60B9A220C6B2</string>
 		</dict>
-		<key>E10F0E98-A7FA-4E2E-89A6-E5B10FDF7CE1</key>
+		<key>F1BE7EC1-653C-43DA-96E1-C0F2412C20D5</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -57,7 +57,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>E10F0E98-A7FA-4E2E-89A6-E5B10FDF7CE1.xcactivitylog</string>
+			<string>F1BE7EC1-653C-43DA-96E1-C0F2412C20D5.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -82,13 +82,13 @@
 			<key>signature</key>
 			<string>Building project LaunchCorner with scheme LaunchCorner and configuration Release</string>
 			<key>timeStartedRecording</key>
-			<real>807888390.35140002</real>
+			<real>807889318.59335995</real>
 			<key>timeStoppedRecording</key>
-			<real>807888394.57725298</real>
+			<real>807889329.41275406</real>
 			<key>title</key>
 			<string>Building project LaunchCorner with scheme LaunchCorner and configuration Release</string>
 			<key>uniqueIdentifier</key>
-			<string>E10F0E98-A7FA-4E2E-89A6-E5B10FDF7CE1</string>
+			<string>F1BE7EC1-653C-43DA-96E1-C0F2412C20D5</string>
 		</dict>
 	</dict>
 </dict>

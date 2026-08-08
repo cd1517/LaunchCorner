@@ -17,15 +17,18 @@ jobs:
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode.app
 
-      - name: Build Universal 2 Binary & Export ZIP
+      - name: Install create-dmg
+        run: brew install create-dmg
+
+      - name: Build Universal 2 Binary & Generate DMG
         run: |
           chmod +x scripts/build_release.sh
           ./scripts/build_release.sh
 
-      - name: Upload Release Asset
+      - name: Upload Release Asset (DMG)
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'release'
         with:
-          files: build/LaunchCorner.zip
+          files: build/LaunchCorner.dmg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
