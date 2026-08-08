@@ -7,7 +7,7 @@ struct ScreenCornerView: View {
     @State private var selectedScreenID: String? = nil
     @State private var activeSheet: Corner? = nil
     
-    private let imageSize: CGFloat = 500
+    private let imageSize: CGFloat = 460
     
     var body: some View {
         VStack(spacing: 12) {
@@ -28,8 +28,7 @@ struct ScreenCornerView: View {
                     .resizable()
                     .frame(width: imageSize, height: imageSize)
                 
-                // Corner buttons using padding to define the display area
-                // This approach is robust — buttons sit at corners of the padded area
+                // Corner buttons overlaid directly inside the MacBook screen corners (blue circles)
                 VStack(spacing: 0) {
                     HStack(spacing: 0) {
                         CornerButton(corner: .topLeft, screenID: selectedScreenID) {
@@ -51,14 +50,13 @@ struct ScreenCornerView: View {
                         }
                     }
                 }
-                // Padding defines where the display area sits within the image
-                // Top: empty space + top bezel, Bottom: chin + stand + empty space
-                // Sides: side transparent space + thin bezel
-                .padding(.top, imageSize * 0.265)
-                .padding(.bottom, imageSize * 0.225)
-                .padding(.horizontal, imageSize * 0.155)
+                // Tuned to map buttons precisely onto the 4 corners inside the black display area
+                .padding(.top, imageSize * 0.485)
+                .padding(.bottom, imageSize * 0.170)
+                .padding(.horizontal, imageSize * 0.270)
             }
             .frame(width: imageSize, height: imageSize)
+            .offset(y: -55) // Shifts MacBook screen up into the vertical center of the window
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .sheet(item: $activeSheet) { corner in
@@ -77,7 +75,7 @@ struct CornerButton: View {
     
     @State private var isHovering = false
     
-    private let buttonSize: CGFloat = 36
+    private let buttonSize: CGFloat = 34
     
     var body: some View {
         let screenConfig = configStore.cornerConfig(forScreenID: screenID)
@@ -91,7 +89,7 @@ struct CornerButton: View {
                     .overlay(
                         Circle()
                             .stroke(
-                                cornerAction.isConfigured ? Color.accentColor : Color.white.opacity(0.3),
+                                cornerAction.isConfigured ? Color.accentColor : Color.white.opacity(0.35),
                                 style: StrokeStyle(lineWidth: 1.5, dash: cornerAction.isConfigured ? [] : [4])
                             )
                     )
@@ -100,11 +98,11 @@ struct CornerButton: View {
                     Image(nsImage: icon)
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 20, height: 20)
+                        .frame(width: 18, height: 18)
                 } else {
                     Image(systemName: "plus")
-                        .font(.system(size: 12, weight: .medium))
-                        .foregroundColor(isHovering ? .accentColor : .white.opacity(0.4))
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundColor(isHovering ? .accentColor : .white.opacity(0.45))
                         .animation(.easeInOut(duration: 0.2), value: isHovering)
                 }
             }

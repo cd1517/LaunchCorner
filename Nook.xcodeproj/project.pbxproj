@@ -13,6 +13,7 @@
 		B30000000000000000000001 /* ActionExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000000 /* ActionExecutor.swift */; };
 		B40000000000000000000001 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40000000000000000000000 /* PermissionManager.swift */; };
 		B50000000000000000000001 /* ConfigStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50000000000000000000000 /* ConfigStore.swift */; };
+		B51000000000000000000001 /* MenuBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51000000000000000000000 /* MenuBarManager.swift */; };
 		B60000000000000000000001 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60000000000000000000000 /* MainView.swift */; };
 		B70000000000000000000001 /* ScreenCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70000000000000000000000 /* ScreenCornerView.swift */; };
 		B80000000000000000000001 /* CornerConfigSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80000000000000000000000 /* CornerConfigSheet.swift */; };
@@ -29,6 +30,7 @@
 		B30000000000000000000000 /* ActionExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionExecutor.swift; sourceTree = "<group>"; };
 		B40000000000000000000000 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
 		B50000000000000000000000 /* ConfigStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigStore.swift; sourceTree = "<group>"; };
+		B51000000000000000000000 /* MenuBarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarManager.swift; sourceTree = "<group>"; };
 		B60000000000000000000000 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		B70000000000000000000000 /* ScreenCornerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCornerView.swift; sourceTree = "<group>"; };
 		B80000000000000000000000 /* CornerConfigSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CornerConfigSheet.swift; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 				B30000000000000000000000 /* ActionExecutor.swift */,
 				B40000000000000000000000 /* PermissionManager.swift */,
 				B50000000000000000000000 /* ConfigStore.swift */,
+				B51000000000000000000000 /* MenuBarManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -186,6 +189,7 @@
 				B30000000000000000000001 /* ActionExecutor.swift in Sources */,
 				B40000000000000000000001 /* PermissionManager.swift in Sources */,
 				B50000000000000000000001 /* ConfigStore.swift in Sources */,
+				B51000000000000000000001 /* MenuBarManager.swift in Sources */,
 				B60000000000000000000001 /* MainView.swift in Sources */,
 				B70000000000000000000001 /* ScreenCornerView.swift in Sources */,
 				B80000000000000000000001 /* CornerConfigSheet.swift in Sources */,

@@ -87,7 +87,6 @@ class CornerDetectionEngine: ObservableObject {
                 }
             } else {
                 // Mouse is still inside the SAME corner
-                // Only start dwell timer if it hasn't triggered for this entry yet and no cooldown
                 if !hasTriggeredForCurrentEntry && !cooldownActive && dwellTimer == nil {
                     startDwellTimer(for: detected.corner, screenID: detected.screenID)
                 }
@@ -138,15 +137,20 @@ class CornerDetectionEngine: ObservableObject {
         
         guard action.isConfigured else { return }
         
-        let timer = DispatchSource.makeTimerSource(queue: DispatchQueue.main)
         let dwellTime = configStore.config.dwellTime
         
-        timer.schedule(deadline: .now() + dwellTime)
-        timer.setEventHandler { [weak self] in
-            self?.triggerAction(for: corner, screenID: screenID)
+        if dwellTime <= 0.01 {
+            // Instant trigger for 0 ms dwell time
+            triggerAction(for: corner, screenID: screenID)
+        } else {
+            let timer = DispatchSource.makeTimerSource(queue: DispatchQueue.main)
+            timer.schedule(deadline: .now() + dwellTime)
+            timer.setEventHandler { [weak self] in
+                self?.triggerAction(for: corner, screenID: screenID)
+            }
+            timer.resume()
+            self.dwellTimer = timer
         }
-        timer.resume()
-        self.dwellTimer = timer
     }
     
     private func cancelDwellTimer() {
@@ -177,8 +181,7 @@ class CornerDetectionEngine: ObservableObject {
     
     private func startCooldown() {
         cooldownActive = true
-        // 1-second cooldown after triggering before another corner can trigger
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
             self?.cooldownActive = false
         }
     }

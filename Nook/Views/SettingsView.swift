@@ -10,14 +10,14 @@ struct SettingsView: View {
     @State private var updateStatus: String = ""
     @State private var isCheckingUpdate = false
     
-    private let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+    private let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
     private let buildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
     private let githubRepo = "wenujacodes/Nook"
     
     var body: some View {
         VStack(spacing: 0) {
             ScrollView {
-                VStack(spacing: 24) {
+                VStack(spacing: 20) {
                     // Title Header
                     HStack {
                         Text("Settings")
@@ -27,9 +27,43 @@ struct SettingsView: View {
                     }
                     .padding(.horizontal, 4)
                     
-                    // General
+                    // General Options
                     GroupBox("General") {
-                        VStack(alignment: .leading, spacing: 16) {
+                        VStack(alignment: .leading, spacing: 14) {
+                            HStack {
+                                Text("Show in Menu Bar")
+                                Spacer()
+                                Toggle("", isOn: Binding(
+                                    get: { configStore.config.showInMenuBar },
+                                    set: { newValue in
+                                        configStore.config.showInMenuBar = newValue
+                                        configStore.save()
+                                    }
+                                ))
+                                .toggleStyle(.switch)
+                                .controlSize(.mini)
+                                .labelsHidden()
+                            }
+                            
+                            Divider()
+                            
+                            HStack {
+                                Text("Enable Hot Corner")
+                                Spacer()
+                                Toggle("", isOn: Binding(
+                                    get: { configStore.config.isActive },
+                                    set: { newValue in
+                                        configStore.config.isActive = newValue
+                                        configStore.save()
+                                    }
+                                ))
+                                .toggleStyle(.switch)
+                                .controlSize(.mini)
+                                .labelsHidden()
+                            }
+                            
+                            Divider()
+                            
                             HStack {
                                 Text("Launch at Login")
                                 Spacer()
@@ -56,33 +90,19 @@ struct SettingsView: View {
                         .padding(8)
                     }
                     
-                    // Sensitivity
+                    // Sensitivity (Dwell Time)
                     GroupBox("Sensitivity") {
-                        VStack(alignment: .leading, spacing: 20) {
+                        VStack(alignment: .leading, spacing: 16) {
                             VStack(alignment: .leading) {
                                 HStack {
                                     Text("Dwell Time")
                                     Spacer()
-                                    Text(String(format: "%.0f ms", configStore.config.dwellTime * 1000))
+                                    Text(configStore.config.dwellTime <= 0.01 ? "Instant (0 ms)" : String(format: "%.0f ms", configStore.config.dwellTime * 1000))
                                         .foregroundColor(.secondary)
                                         .font(.caption)
                                 }
-                                Slider(value: $configStore.config.dwellTime, in: 0.1...0.5, step: 0.05)
-                                Text("How long the cursor must rest in a corner before triggering.")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
-                            
-                            VStack(alignment: .leading) {
-                                HStack {
-                                    Text("Hit Zone Size")
-                                    Spacer()
-                                    Text(String(format: "%.0f px", configStore.config.hitZoneSize))
-                                        .foregroundColor(.secondary)
-                                        .font(.caption)
-                                }
-                                Slider(value: $configStore.config.hitZoneSize, in: 5...20, step: 1)
-                                Text("The size of the sensitive area in each corner.")
+                                Slider(value: $configStore.config.dwellTime, in: 0.0...0.5, step: 0.02)
+                                Text("How long the cursor rests in a corner before triggering. Set to 0 ms for instant response.")
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                             }
@@ -93,6 +113,23 @@ struct SettingsView: View {
                     // Updates
                     GroupBox("Updates") {
                         VStack(alignment: .leading, spacing: 12) {
+                            HStack {
+                                Text("Automatically check for updates")
+                                Spacer()
+                                Toggle("", isOn: Binding(
+                                    get: { configStore.config.autoCheckUpdates },
+                                    set: { newValue in
+                                        configStore.config.autoCheckUpdates = newValue
+                                        configStore.save()
+                                    }
+                                ))
+                                .toggleStyle(.switch)
+                                .controlSize(.mini)
+                                .labelsHidden()
+                            }
+                            
+                            Divider()
+                            
                             HStack {
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text("Software Update")
@@ -127,20 +164,32 @@ struct SettingsView: View {
                         .padding(8)
                     }
                     
-                    // About Section (Swapped to bottom)
+                    // About Section
                     GroupBox("About") {
                         VStack(alignment: .leading, spacing: 12) {
-                            HStack {
-                                Text("Version")
-                                Spacer()
-                                Text("\(appVersion) (\(buildNumber))")
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Nook Version \(appVersion)")
+                                    .fontWeight(.medium)
+                                Text("A lightweight hot-corner launcher for macOS.")
+                                    .font(.caption)
                                     .foregroundColor(.secondary)
                             }
                             
                             Divider()
                             
                             HStack {
-                                Link("GitHub", destination: URL(string: "https://github.com/wenujacodes")!)
+                                Link("Report an Issue", destination: URL(string: "https://github.com/wenujacodes/Nook/issues")!)
+                                    .foregroundColor(.accentColor)
+                                Spacer()
+                                Image(systemName: "bubble.left.and.exclamationmark.bubble.right")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+                            
+                            Divider()
+                            
+                            HStack {
+                                Link("GitHub (@wenujacodes)", destination: URL(string: "https://github.com/wenujacodes")!)
                                     .foregroundColor(.accentColor)
                                 Spacer()
                                 Image(systemName: "arrow.up.right.square")
@@ -151,7 +200,7 @@ struct SettingsView: View {
                             Divider()
                             
                             HStack {
-                                Link("X (Twitter)", destination: URL(string: "https://x.com/wenujacodes")!)
+                                Link("X / Twitter (@wenujacodes)", destination: URL(string: "https://x.com/wenujacodes")!)
                                     .foregroundColor(.accentColor)
                                 Spacer()
                                 Image(systemName: "arrow.up.right.square")
@@ -173,9 +222,11 @@ struct SettingsView: View {
             Button("Reset All", role: .destructive) {
                 configStore.config.screenConfigs.removeAll()
                 configStore.config.defaultConfig = .empty
-                configStore.config.dwellTime = 0.2
-                configStore.config.hitZoneSize = 10
+                configStore.config.dwellTime = 0.15
+                configStore.config.hitZoneSize = 15.0
                 configStore.config.monitorMode = .allScreens
+                configStore.config.showInMenuBar = true
+                configStore.config.autoCheckUpdates = true
                 configStore.save()
             }
         } message: {

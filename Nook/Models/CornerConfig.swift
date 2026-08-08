@@ -42,7 +42,6 @@ enum CornerAction: Codable, Equatable {
         return true
     }
     
-    // Get the app icon for display, returns nil for .none
     func appIcon() -> NSImage? {
         switch self {
         case .none: return nil
@@ -65,7 +64,6 @@ struct ScreenCornerConfig: Codable, Equatable {
         ])
     }
     
-    // Get/set action for a specific corner
     func action(for corner: Corner) -> CornerAction {
         return corners[corner.rawValue] ?? .none
     }
@@ -78,26 +76,57 @@ struct ScreenCornerConfig: Codable, Equatable {
 // Which monitors to watch
 enum MonitorMode: Codable, Equatable {
     case allScreens
-    case specificScreen(String) // screen identifier
+    case specificScreen(String)
 }
 
 // Top-level app configuration
 struct AppConfig: Codable, Equatable {
-    var screenConfigs: [String: ScreenCornerConfig] // keyed by screen display ID
-    var defaultConfig: ScreenCornerConfig // used when monitorMode is .allScreens
-    var dwellTime: Double // seconds, range 0.1 - 0.5, default 0.2
-    var hitZoneSize: Double // pixels, range 5 - 20, default 10
-    var isActive: Bool // whether corner detection is running
+    var screenConfigs: [String: ScreenCornerConfig]
+    var defaultConfig: ScreenCornerConfig
+    var dwellTime: Double
+    var hitZoneSize: Double
+    var isActive: Bool
     var monitorMode: MonitorMode
+    var showInMenuBar: Bool
+    var autoCheckUpdates: Bool
     
     static var `default`: AppConfig {
         AppConfig(
             screenConfigs: [:],
             defaultConfig: .empty,
-            dwellTime: 0.2,
-            hitZoneSize: 10.0,
+            dwellTime: 0.15,
+            hitZoneSize: 15.0,
             isActive: true,
-            monitorMode: .allScreens
+            monitorMode: .allScreens,
+            showInMenuBar: true,
+            autoCheckUpdates: true
         )
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case screenConfigs, defaultConfig, dwellTime, hitZoneSize, isActive, monitorMode, showInMenuBar, autoCheckUpdates
+    }
+    
+    init(screenConfigs: [String: ScreenCornerConfig], defaultConfig: ScreenCornerConfig, dwellTime: Double, hitZoneSize: Double, isActive: Bool, monitorMode: MonitorMode, showInMenuBar: Bool = true, autoCheckUpdates: Bool = true) {
+        self.screenConfigs = screenConfigs
+        self.defaultConfig = defaultConfig
+        self.dwellTime = dwellTime
+        self.hitZoneSize = hitZoneSize
+        self.isActive = isActive
+        self.monitorMode = monitorMode
+        self.showInMenuBar = showInMenuBar
+        self.autoCheckUpdates = autoCheckUpdates
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        screenConfigs = try container.decodeIfPresent([String: ScreenCornerConfig].self, forKey: .screenConfigs) ?? [:]
+        defaultConfig = try container.decodeIfPresent(ScreenCornerConfig.self, forKey: .defaultConfig) ?? .empty
+        dwellTime = try container.decodeIfPresent(Double.self, forKey: .dwellTime) ?? 0.15
+        hitZoneSize = try container.decodeIfPresent(Double.self, forKey: .hitZoneSize) ?? 15.0
+        isActive = try container.decodeIfPresent(Bool.self, forKey: .isActive) ?? true
+        monitorMode = try container.decodeIfPresent(MonitorMode.self, forKey: .monitorMode) ?? .allScreens
+        showInMenuBar = try container.decodeIfPresent(Bool.self, forKey: .showInMenuBar) ?? true
+        autoCheckUpdates = try container.decodeIfPresent(Bool.self, forKey: .autoCheckUpdates) ?? true
     }
 }
