@@ -83,17 +83,15 @@ struct PermissionView: View {
                 .frame(height: 30)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(NSColor.windowBackgroundColor))
+        .background(Color(red: 0x24/255.0, green: 0x23/255.0, blue: 0x21/255.0))
     }
     
     private func featureRow(icon: String, title: String, description: String) -> some View {
         HStack(alignment: .top, spacing: 14) {
             Image(systemName: icon)
-                .font(.system(size: 14, weight: .medium))
+                .font(.system(size: 15, weight: .medium))
                 .foregroundColor(.accentColor)
                 .frame(width: 28, height: 28)
-                .background(Color.accentColor.opacity(0.12))
-                .cornerRadius(6)
             
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)

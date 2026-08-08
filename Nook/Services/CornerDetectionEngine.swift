@@ -20,6 +20,7 @@ class CornerDetectionEngine: ObservableObject {
     private var localMonitor: Any?
     private var dwellTimer: DispatchSourceTimer?
     private var currentCorner: (corner: Corner, screenID: String)? = nil
+    private var hasTriggeredForCurrentEntry: Bool = false
     private var cooldownActive: Bool = false
     
     private let configStore: ConfigStore
@@ -74,17 +75,28 @@ class CornerDetectionEngine: ObservableObject {
     }
     
     private func handleMouseMoved(event: NSEvent) {
-        guard !cooldownActive else { return }
         let location = NSEvent.mouseLocation
         
         if let detected = detectCorner(at: location) {
             if currentCorner?.corner != detected.corner || currentCorner?.screenID != detected.screenID {
+                // Entered a brand new corner
                 currentCorner = detected
-                startDwellTimer(for: detected.corner, screenID: detected.screenID)
+                hasTriggeredForCurrentEntry = false
+                if !cooldownActive {
+                    startDwellTimer(for: detected.corner, screenID: detected.screenID)
+                }
+            } else {
+                // Mouse is still inside the SAME corner
+                // Only start dwell timer if it hasn't triggered for this entry yet and no cooldown
+                if !hasTriggeredForCurrentEntry && !cooldownActive && dwellTimer == nil {
+                    startDwellTimer(for: detected.corner, screenID: detected.screenID)
+                }
             }
         } else {
+            // Mouse exited corner hit zone completely
             if currentCorner != nil {
                 currentCorner = nil
+                hasTriggeredForCurrentEntry = false
                 cancelDwellTimer()
             }
         }
@@ -144,6 +156,7 @@ class CornerDetectionEngine: ObservableObject {
     
     private func triggerAction(for corner: Corner, screenID: String) {
         cancelDwellTimer()
+        hasTriggeredForCurrentEntry = true // Mark as triggered for this entry into the corner
         
         let config = configStore.cornerConfig(forScreenID: screenID)
         let action = config.action(for: corner)
@@ -153,7 +166,6 @@ class CornerDetectionEngine: ObservableObject {
         ActionExecutor.execute(action)
         lastTriggeredCorner = corner
         
-        // Clear visual feedback quickly
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
             if self?.lastTriggeredCorner == corner {
                 self?.lastTriggeredCorner = nil
@@ -165,16 +177,9 @@ class CornerDetectionEngine: ObservableObject {
     
     private func startCooldown() {
         cooldownActive = true
-        // Very short cooldown — allows rapid re-triggering
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
+        // 1-second cooldown after triggering before another corner can trigger
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
             self?.cooldownActive = false
-            self?.currentCorner = nil
-            // Re-check current mouse position immediately
-            let location = NSEvent.mouseLocation
-            if let detected = self?.detectCorner(at: location) {
-                self?.currentCorner = detected
-                self?.startDwellTimer(for: detected.corner, screenID: detected.screenID)
-            }
         }
     }
 }
