@@ -5,7 +5,7 @@
 [![macOS 14.0+](https://img.shields.io/badge/macOS-14.0%2B-blue.svg?style=flat&logo=apple)](https://www.apple.com/macos)
 [![Swift 5.0](https://img.shields.io/badge/Swift-5.0-orange.svg?style=flat&logo=swift)](https://developer.apple.com/swift/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Universal 2 Binary](https://img.shields.io/badge/Architecture-Universal%202%20(Apple%20Silicon%20%2B%20Intel)-brightgreen.svg)]()
+[![Apple Silicon](https://img.shields.io/badge/Architecture-Apple%20Silicon%20(arm64)-brightgreen.svg)]()
 
 **LaunchCorner** turns your screen corners into instant app shortcuts. Simply move your cursor to any screen corner to launch your favorite applications instantly. Built natively for macOS using SwiftUI.
 
@@ -15,7 +15,7 @@
 
 <div align="center">
   <h5>1. Onboarding & Accessibility Permission</h3>
-  <img src="docs/screenshots/onboarding.png" alt="LaunchCorner Onboarding." width="600" />
+  <img src="docs/screenshots/onboarding.png" alt="LaunchCorner Onboarding" width="600" />
   <br /><br />
   
   <h5>2. Main Corner Configuration</h3>
@@ -32,7 +32,7 @@
 
 - **Instant Hot Corners**: Move your cursor to any of the 4 screen corners to trigger assigned applications.
 - **Native & Ultra-Fast**: Built natively with Swift & SwiftUI for zero latency and minimal CPU/memory footprint.
-- **Universal 2 Binary**: Native support for both **Apple Silicon** and **Intel MacBooks**.
+- **Apple Silicon (arm64)**: Native architecture for **M1/M2/M3/M4** Macs.
 - **Dwell Time & Sensitivity**: Fine-tune trigger response down to **0 ms (Instant)**.
 - **Multi-Monitor Support**: Works seamlessly across multiple connected displays.
 - **Menu Bar & Dock Modes**: Runs quietly in the macOS Menu Bar and automatically hides from the Dock when closed.

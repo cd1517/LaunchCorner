@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "Building LaunchCorner Universal 2 Binary (Apple Silicon + Intel)..."
+echo "Building LaunchCorner Apple Silicon (arm64)..."
 
 # Ensure output directory exists
 mkdir -p build
@@ -14,8 +14,7 @@ xcodebuild build \
   -configuration Release \
   -destination 'platform=macOS' \
   -derivedDataPath build/DerivedData \
-  ARCHS="arm64 x86_64" \
-  ONLY_ACTIVE_ARCH=NO
+  ARCHS="arm64"
 
 # Locate built app
 BUILT_APP="build/DerivedData/Build/Products/Release/LaunchCorner.app"
