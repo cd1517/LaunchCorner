@@ -112,9 +112,8 @@ class CornerDetectionEngine: ObservableObject {
                 // Entered a brand new corner
                 currentCorner = detected
                 hasTriggeredForCurrentEntry = false
-                if !cooldownActive {
-                    startDwellTimer(for: detected.corner, screenID: detected.screenID)
-                }
+                cooldownActive = false
+                startDwellTimer(for: detected.corner, screenID: detected.screenID)
             } else {
                 // Mouse is still inside the SAME corner
                 if !hasTriggeredForCurrentEntry && !cooldownActive && dwellTimer == nil {
@@ -122,10 +121,11 @@ class CornerDetectionEngine: ObservableObject {
                 }
             }
         } else {
-            // Mouse exited corner hit zone completely
+            // Mouse exited corner hit zone completely - reset triggers & cooldown immediately for instant re-trigger
             if currentCorner != nil {
                 currentCorner = nil
                 hasTriggeredForCurrentEntry = false
+                cooldownActive = false
                 cancelDwellTimer()
             }
         }
@@ -207,7 +207,7 @@ class CornerDetectionEngine: ObservableObject {
         ActionExecutor.execute(action)
         lastTriggeredCorner = corner
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
             if self?.lastTriggeredCorner == corner {
                 self?.lastTriggeredCorner = nil
             }
@@ -218,7 +218,7 @@ class CornerDetectionEngine: ObservableObject {
     
     private func startCooldown() {
         cooldownActive = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) { [weak self] in
             self?.cooldownActive = false
         }
     }
