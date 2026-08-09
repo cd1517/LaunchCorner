@@ -11,6 +11,14 @@
 
 ---
 
+## Why LaunchCorner?
+
+With recent macOS updates, Apple removed the built-in Launchpad shortcut for hot corners. While great third-party alternatives exist (such as LaunchOS), many require paid upgrades just to unlock hot corner support for opening app launchers.
+
+LaunchCorner was created as a 100% free, open-source utility so that anyone can trigger LaunchOS (or any application) instantly via hot corners without paywalls or subscriptions.
+
+---
+
 ## Screenshots
 
 <div align="center">
