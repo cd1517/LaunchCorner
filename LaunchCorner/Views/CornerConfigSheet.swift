@@ -3,6 +3,7 @@ import UniformTypeIdentifiers
 
 struct CornerConfigSheet: View {
     @Environment(\.dismiss) var dismiss
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var configStore: ConfigStore
     
     let corner: Corner
@@ -59,8 +60,12 @@ struct CornerConfigSheet: View {
                         Spacer()
                     }
                     .padding()
-                    .background(.ultraThinMaterial)
+                    .background(colorScheme == .dark ? Color.white.opacity(0.06) : Color.white)
                     .cornerRadius(12)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(colorScheme == .dark ? Color.white.opacity(0.1) : Color.black.opacity(0.08), lineWidth: 1)
+                    )
                 } else {
                     VStack(spacing: 10) {
                         Image(systemName: "square.grid.2x2")
@@ -72,8 +77,12 @@ struct CornerConfigSheet: View {
                     }
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 20)
-                    .background(Color.white.opacity(0.04))
+                    .background(colorScheme == .dark ? Color.white.opacity(0.04) : Color.white)
                     .cornerRadius(12)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(colorScheme == .dark ? Color.white.opacity(0.08) : Color.black.opacity(0.08), lineWidth: 1)
+                    )
                 }
                 
                 Button(action: selectApp) {
@@ -118,7 +127,7 @@ struct CornerConfigSheet: View {
         }
         .padding(28)
         .frame(width: 440, height: 320)
-        .background(Color(red: 0x24/255.0, green: 0x23/255.0, blue: 0x21/255.0))
+        .background(colorScheme == .dark ? Color(red: 0x24/255.0, green: 0x23/255.0, blue: 0x21/255.0) : Color(red: 0xF5/255.0, green: 0xF5/255.0, blue: 0xF7/255.0))
         .onAppear {
             loadCurrentConfig()
         }

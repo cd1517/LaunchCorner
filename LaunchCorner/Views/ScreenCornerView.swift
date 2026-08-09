@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct ScreenCornerView: View {
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var configStore: ConfigStore
     @EnvironmentObject var engine: CornerDetectionEngine
     
@@ -67,6 +68,7 @@ struct ScreenCornerView: View {
 }
 
 struct CornerButton: View {
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var configStore: ConfigStore
     @EnvironmentObject var engine: CornerDetectionEngine
     
@@ -85,12 +87,13 @@ struct CornerButton: View {
         Button(action: action) {
             ZStack {
                 Circle()
-                    .fill(Color.black.opacity(0.4))
+                    .fill(colorScheme == .dark ? Color.black.opacity(0.4) : Color.white)
+                    .shadow(color: colorScheme == .dark ? .clear : .black.opacity(0.12), radius: 3, x: 0, y: 1)
                     .frame(width: buttonSize, height: buttonSize)
                     .overlay(
                         Circle()
                             .stroke(
-                                cornerAction.isConfigured ? Color.accentColor : Color.white.opacity(0.4),
+                                cornerAction.isConfigured ? Color.accentColor : (colorScheme == .dark ? Color.white.opacity(0.4) : Color.black.opacity(0.3)),
                                 style: StrokeStyle(lineWidth: 1.5, dash: cornerAction.isConfigured ? [] : [4])
                             )
                     )
@@ -103,7 +106,7 @@ struct CornerButton: View {
                 } else {
                     Image(systemName: "plus")
                         .font(.system(size: 14, weight: .medium))
-                        .foregroundColor(isHovering ? .accentColor : .white.opacity(0.5))
+                        .foregroundColor(isHovering ? .accentColor : (colorScheme == .dark ? .white.opacity(0.5) : .black.opacity(0.5)))
                         .animation(.easeInOut(duration: 0.2), value: isHovering)
                 }
             }

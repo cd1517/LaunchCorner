@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct PermissionView: View {
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var permissionManager: PermissionManager
     
     var body: some View {
@@ -85,7 +86,7 @@ struct PermissionView: View {
                 .frame(height: 30)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(red: 0x24/255.0, green: 0x23/255.0, blue: 0x21/255.0))
+        .background(colorScheme == .dark ? Color(red: 0x24/255.0, green: 0x23/255.0, blue: 0x21/255.0) : Color(red: 0xF5/255.0, green: 0xF5/255.0, blue: 0xF7/255.0))
         .onAppear {
             permissionManager.startMonitoringPermission()
         }

@@ -1,6 +1,7 @@
 import Foundation
 import SwiftUI
 import Combine
+import ServiceManagement
 
 // Observable store that persists AppConfig to UserDefaults
 @MainActor
@@ -11,6 +12,12 @@ class ConfigStore: ObservableObject {
         didSet {
             save()
             configDidChange.send(config)
+        }
+    }
+    
+    @Published var isLaunchAtLoginEnabled: Bool = false {
+        didSet {
+            setLaunchAtLogin(isLaunchAtLoginEnabled)
         }
     }
     
@@ -26,12 +33,41 @@ class ConfigStore: ObservableObject {
         } else {
             self.config = .default
         }
+        
+        self.isLaunchAtLoginEnabled = checkLaunchAtLogin()
+    }
+    
+    private func checkLaunchAtLogin() -> Bool {
+        if #available(macOS 13.0, *) {
+            return SMAppService.mainApp.status == .enabled
+        }
+        return false
+    }
+    
+    func setLaunchAtLogin(_ enabled: Bool) {
+        if #available(macOS 13.0, *) {
+            do {
+                if enabled {
+                    try SMAppService.mainApp.register()
+                } else {
+                    try SMAppService.mainApp.unregister()
+                }
+            } catch {
+                print("Failed to toggle Launch at Login: \(error.localizedDescription)")
+            }
+        }
     }
     
     func save() {
         if let encoded = try? JSONEncoder().encode(config) {
             UserDefaults.standard.set(encoded, forKey: userDefaultsKey)
         }
+    }
+    
+    func resetAllCorners() {
+        config.defaultConfig = .empty
+        config.screenConfigs = [:]
+        save()
     }
     
     // Convenience accessors

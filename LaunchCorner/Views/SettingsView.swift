@@ -1,42 +1,86 @@
 import SwiftUI
-import ServiceManagement
 
 struct SettingsView: View {
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var configStore: ConfigStore
     @EnvironmentObject var permissionManager: PermissionManager
     @EnvironmentObject var updateManager: UpdateManager
-    var onBack: (() -> Void)? = nil
     
-    @AppStorage("launchAtLogin") private var launchAtLogin = false
-    @State private var showResetConfirmation = false
-    @State private var updateStatus: String = ""
+    var onBack: () -> Void
     
-    private let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
-    private let buildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
-    private let githubRepo = "wenujacodes/LaunchCorner"
+    @State private var showingResetAlert = false
+    
+    private var showInMenuBarBinding: Binding<Bool> {
+        Binding(
+            get: { configStore.config.showInMenuBar },
+            set: { newValue in
+                configStore.config.showInMenuBar = newValue
+                configStore.save()
+            }
+        )
+    }
+    
+    private var enableLaunchCornerBinding: Binding<Bool> {
+        Binding(
+            get: { configStore.config.isActive },
+            set: { newValue in
+                configStore.config.isActive = newValue
+                configStore.save()
+            }
+        )
+    }
+    
+    private var autoCheckUpdatesBinding: Binding<Bool> {
+        Binding(
+            get: { configStore.config.autoCheckUpdates },
+            set: { newValue in
+                configStore.config.autoCheckUpdates = newValue
+                configStore.save()
+            }
+        )
+    }
+    
+    private var dwellTimeBinding: Binding<Double> {
+        Binding(
+            get: { configStore.config.dwellTime },
+            set: { newValue in
+                configStore.config.dwellTime = newValue
+                configStore.save()
+            }
+        )
+    }
     
     var body: some View {
         VStack(spacing: 0) {
+            // Top Left Title (Matching original screenshot)
+            HStack {
+                Text("Settings")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .foregroundStyle(.primary)
+                Spacer()
+            }
+            .padding(.horizontal, 28)
+            .padding(.top, 4)
+            .padding(.bottom, 16)
+            
             ScrollView {
-                VStack(spacing: 20) {
-                    // Title Header
-                    HStack {
-                        Text("Settings")
-                            .font(.title2)
-                            .fontWeight(.bold)
-                        Spacer()
-                    }
-                    .padding(.horizontal, 4)
-                    
-                    // General Options
-                    GroupBox("General") {
-                        VStack(alignment: .leading, spacing: 14) {
+                VStack(spacing: 24) {
+                    // General
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("General")
+                            .font(.subheadline)
+                            .fontWeight(.medium)
+                            .foregroundColor(.secondary)
+                        
+                        VStack(spacing: 12) {
                             HStack {
                                 Text("Show in Menu Bar")
+                                    .font(.body)
                                 Spacer()
-                                Toggle("", isOn: $configStore.config.showInMenuBar)
-                                    .toggleStyle(.switch)
-                                    .controlSize(.mini)
+                                Toggle("", isOn: showInMenuBarBinding)
+                                    .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+                                    .controlSize(.small)
                                     .labelsHidden()
                             }
                             
@@ -44,10 +88,11 @@ struct SettingsView: View {
                             
                             HStack {
                                 Text("Enable LaunchCorner")
+                                    .font(.body)
                                 Spacer()
-                                Toggle("", isOn: $configStore.config.isActive)
-                                    .toggleStyle(.switch)
-                                    .controlSize(.mini)
+                                Toggle("", isOn: enableLaunchCornerBinding)
+                                    .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+                                    .controlSize(.small)
                                     .labelsHidden()
                             }
                             
@@ -55,167 +100,200 @@ struct SettingsView: View {
                             
                             HStack {
                                 Text("Launch at Login")
+                                    .font(.body)
                                 Spacer()
-                                Toggle("", isOn: Binding(
-                                    get: { launchAtLogin },
-                                    set: { newValue in
-                                        launchAtLogin = newValue
-                                        do {
-                                            if newValue {
-                                                try SMAppService.mainApp.register()
-                                            } else {
-                                                try SMAppService.mainApp.unregister()
-                                            }
-                                        } catch {
-                                            print("Failed to update launch at login: \(error)")
-                                        }
-                                    }
-                                ))
-                                .toggleStyle(.switch)
-                                .controlSize(.mini)
-                                .labelsHidden()
+                                Toggle("", isOn: $configStore.isLaunchAtLoginEnabled)
+                                    .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+                                    .controlSize(.small)
+                                    .labelsHidden()
                             }
                         }
-                        .padding(8)
+                        .padding(14)
+                        .background(colorScheme == .dark ? Color.white.opacity(0.04) : Color.white)
+                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(colorScheme == .dark ? Color.white.opacity(0.08) : Color.black.opacity(0.08), lineWidth: 1)
+                        )
                     }
                     
-                    // Sensitivity (Dwell Time)
-                    GroupBox("Sensitivity") {
-                        VStack(alignment: .leading, spacing: 16) {
-                            VStack(alignment: .leading) {
-                                HStack {
-                                    Text("Dwell Time")
-                                    Spacer()
-                                    Text(configStore.config.dwellTime <= 0.01 ? "Instant (0 ms)" : String(format: "%.0f ms", configStore.config.dwellTime * 1000))
-                                        .foregroundColor(.secondary)
-                                        .font(.caption)
-                                }
-                                Slider(value: $configStore.config.dwellTime, in: 0.0...0.5, step: 0.02)
-                                Text("How long the cursor rests in a corner before triggering. Set to 0 ms for instant response.")
-                                    .font(.caption)
+                    // Sensitivity
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Sensitivity")
+                            .font(.subheadline)
+                            .fontWeight(.medium)
+                            .foregroundColor(.secondary)
+                        
+                        VStack(alignment: .leading, spacing: 8) {
+                            HStack {
+                                Text("Dwell Time")
+                                    .font(.body)
+                                Spacer()
+                                Text(configStore.config.dwellTime <= 0.01 ? "Instant (0 ms)" : String(format: "%.0f ms", configStore.config.dwellTime * 1000))
+                                    .font(.callout)
                                     .foregroundColor(.secondary)
                             }
+                            
+                            Slider(value: dwellTimeBinding, in: 0.0...0.5, step: 0.05)
+                            
+                            Text("How long the cursor rests in a corner before triggering. Set to 0 ms for instant response.")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
                         }
-                        .padding(8)
+                        .padding(14)
+                        .background(colorScheme == .dark ? Color.white.opacity(0.04) : Color.white)
+                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(colorScheme == .dark ? Color.white.opacity(0.08) : Color.black.opacity(0.08), lineWidth: 1)
+                        )
                     }
                     
                     // Updates
-                    GroupBox("Updates") {
-                        VStack(alignment: .leading, spacing: 12) {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Updates")
+                            .font(.subheadline)
+                            .fontWeight(.medium)
+                            .foregroundColor(.secondary)
+                        
+                        VStack(spacing: 12) {
                             HStack {
                                 Text("Automatically check for updates")
+                                    .font(.body)
                                 Spacer()
-                                Toggle("", isOn: $configStore.config.autoCheckUpdates)
-                                    .toggleStyle(.switch)
-                                    .controlSize(.mini)
+                                Toggle("", isOn: autoCheckUpdatesBinding)
+                                    .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+                                    .controlSize(.small)
                                     .labelsHidden()
                             }
                             
                             Divider()
                             
                             HStack {
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text("Software Update")
-                                    if !updateStatus.isEmpty {
-                                        Text(updateStatus)
-                                            .font(.caption)
-                                            .foregroundColor(.secondary)
-                                    }
-                                }
+                                Text("Software Update")
+                                    .font(.body)
                                 Spacer()
                                 Button("Check Now") {
                                     updateManager.checkForUpdates()
                                 }
-                                .controlSize(.small)
+                                .buttonStyle(.bordered)
                             }
                         }
-                        .padding(8)
+                        .padding(14)
+                        .background(colorScheme == .dark ? Color.white.opacity(0.04) : Color.white)
+                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(colorScheme == .dark ? Color.white.opacity(0.08) : Color.black.opacity(0.08), lineWidth: 1)
+                        )
                     }
                     
-                    // Danger Zone (Reset Section)
-                    GroupBox("Danger Zone") {
+                    // Danger Zone
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Danger Zone")
+                            .font(.subheadline)
+                            .fontWeight(.medium)
+                            .foregroundColor(.secondary)
+                        
                         HStack {
                             Text("Reset All Configurations & Permissions")
+                                .font(.body)
                             Spacer()
                             Button("Reset") {
-                                showResetConfirmation = true
+                                showingResetAlert = true
                             }
                             .foregroundColor(.red)
-                            .controlSize(.small)
+                            .buttonStyle(.bordered)
                         }
-                        .padding(8)
+                        .padding(14)
+                        .background(colorScheme == .dark ? Color.white.opacity(0.04) : Color.white)
+                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(colorScheme == .dark ? Color.white.opacity(0.08) : Color.black.opacity(0.08), lineWidth: 1)
+                        )
                     }
                     
-                    // About Section
-                    GroupBox("About") {
-                        VStack(alignment: .leading, spacing: 12) {
+                    // About
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("About")
+                            .font(.subheadline)
+                            .fontWeight(.medium)
+                            .foregroundColor(.secondary)
+                        
+                        VStack(spacing: 12) {
                             HStack {
                                 Text("Version")
+                                    .font(.body)
                                 Spacer()
-                                Text(appVersion)
+                                Text("1.1.0")
+                                    .font(.body)
                                     .foregroundColor(.secondary)
                             }
                             
                             Divider()
                             
-                            HStack {
-                                Link("Report an Issue", destination: URL(string: "https://github.com/wenujacodes/LaunchCorner/issues")!)
-                                    .foregroundColor(.accentColor)
-                                Spacer()
-                                Image(systemName: "bubble.left.and.exclamationmark.bubble.right")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
+                            Link(destination: URL(string: "https://github.com/wenujacodes/LaunchCorner/issues")!) {
+                                HStack {
+                                    Text("Report an Issue")
+                                        .font(.body)
+                                        .foregroundColor(.accentColor)
+                                    Spacer()
+                                    Image(systemName: "bubble.left.and.bubble.right")
+                                        .foregroundColor(.secondary)
+                                }
                             }
                             
                             Divider()
                             
-                            HStack {
-                                Link("GitHub", destination: URL(string: "https://github.com/wenujacodes/LaunchCorner")!)
-                                    .foregroundColor(.accentColor)
-                                Spacer()
-                                Image(systemName: "arrow.up.right.square")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
+                            Link(destination: URL(string: "https://github.com/wenujacodes/LaunchCorner")!) {
+                                HStack {
+                                    Text("GitHub")
+                                        .font(.body)
+                                        .foregroundColor(.accentColor)
+                                    Spacer()
+                                    Image(systemName: "arrow.up.right.square")
+                                        .foregroundColor(.secondary)
+                                }
                             }
                             
                             Divider()
                             
-                            HStack {
-                                Link("X (Twitter)", destination: URL(string: "https://x.com/wenujacodes")!)
-                                    .foregroundColor(.accentColor)
-                                Spacer()
-                                Image(systemName: "arrow.up.right.square")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
+                            Link(destination: URL(string: "https://x.com/wenujacodes")!) {
+                                HStack {
+                                    Text("X (Twitter)")
+                                        .font(.body)
+                                        .foregroundColor(.accentColor)
+                                    Spacer()
+                                    Image(systemName: "arrow.up.right.square")
+                                        .foregroundColor(.secondary)
+                                }
                             }
                         }
-                        .padding(8)
+                        .padding(14)
+                        .background(colorScheme == .dark ? Color.white.opacity(0.04) : Color.white)
+                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(colorScheme == .dark ? Color.white.opacity(0.08) : Color.black.opacity(0.08), lineWidth: 1)
+                        )
                     }
                 }
-                .padding(.horizontal, 48)
-                .padding(.vertical, 16)
+                .padding(.horizontal, 28)
+                .padding(.bottom, 24)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(red: 0x24/255.0, green: 0x23/255.0, blue: 0x21/255.0))
-        .alert("Reset Everything?", isPresented: $showResetConfirmation) {
+        .background(colorScheme == .dark ? Color(red: 0x24/255.0, green: 0x23/255.0, blue: 0x21/255.0) : Color(red: 0xF5/255.0, green: 0xF5/255.0, blue: 0xF7/255.0))
+        .alert("Reset All Configurations?", isPresented: $showingResetAlert) {
             Button("Cancel", role: .cancel) {}
-            Button("Reset All", role: .destructive) {
-                configStore.config.screenConfigs.removeAll()
-                configStore.config.defaultConfig = .empty
-                configStore.config.dwellTime = 0.15
-                configStore.config.hitZoneSize = 15.0
-                configStore.config.monitorMode = .allScreens
-                configStore.config.showInMenuBar = true
-                configStore.config.autoCheckUpdates = true
-                configStore.save()
-                
-                // Reset Accessibility TCC permissions and redirect to Onboarding
-                permissionManager.resetPermission()
-                onBack?()
+            Button("Reset Everything", role: .destructive) {
+                configStore.resetAllCorners()
+                permissionManager.isAccessibilityGranted = false
+                permissionManager.openAccessibilitySettings()
             }
         } message: {
-            Text("This will reset all corner assignments, settings, and accessibility permissions, returning you to onboarding.")
+            Text("This will clear all corner assignments, reset preferences, and return LaunchCorner to setup. This cannot be undone.")
         }
     }
 }

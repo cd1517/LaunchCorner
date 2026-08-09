@@ -141,7 +141,6 @@ struct LaunchCornerApp: App {
                     
                     appState.permissionManager.startMonitoringPermission()
                 }
-                .preferredColorScheme(.dark)
         }
         .windowResizability(.contentSize)
     }

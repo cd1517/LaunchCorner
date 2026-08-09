@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct MainView: View {
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var configStore: ConfigStore
     @EnvironmentObject var permissionManager: PermissionManager
     @EnvironmentObject var engine: CornerDetectionEngine
@@ -90,7 +91,7 @@ struct MainView: View {
             .animation(.spring(response: 0.5, dampingFraction: 0.8), value: permissionManager.isAccessibilityGranted)
         }
         .frame(width: 660, height: 540)
-        .background(Color(red: 0x24/255.0, green: 0x23/255.0, blue: 0x21/255.0))
+        .background(colorScheme == .dark ? Color(red: 0x24/255.0, green: 0x23/255.0, blue: 0x21/255.0) : Color(red: 0xF5/255.0, green: 0xF5/255.0, blue: 0xF7/255.0))
         .onAppear {
             if permissionManager.isAccessibilityGranted && configStore.config.isActive {
                 engine.start()
