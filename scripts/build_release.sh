@@ -20,6 +20,9 @@ xcodebuild build \
 BUILT_APP="build/DerivedData/Build/Products/Release/LaunchCorner.app"
 
 if [ -d "$BUILT_APP" ]; then
+    echo "Deep signing LaunchCorner.app and embedded Sparkle.framework..."
+    codesign --force --deep --sign - "$BUILT_APP"
+    
     if command -v create-dmg &> /dev/null; then
         echo "Generating LaunchCorner.dmg with create-dmg..."
         rm -f build/LaunchCorner.dmg
