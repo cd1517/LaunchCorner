@@ -32,7 +32,7 @@
 
 - **Instant Hot Corners**: Move your cursor to any of the 4 screen corners to trigger assigned applications.
 - **Native & Ultra-Fast**: Built natively with Swift & SwiftUI for zero latency and minimal CPU/memory footprint.
-- **Universal 2 Binary**: Native support for both **Apple Silicon** (M1/M2/M3/M4) and **Intel MacBooks**.
+- **Universal 2 Binary**: Native support for both **Apple Silicon** and **Intel MacBooks**.
 - **Dwell Time & Sensitivity**: Fine-tune trigger response down to **0 ms (Instant)**.
 - **Multi-Monitor Support**: Works seamlessly across multiple connected displays.
 - **Menu Bar & Dock Modes**: Runs quietly in the macOS Menu Bar and automatically hides from the Dock when closed.
@@ -66,6 +66,14 @@ To generate the installer (`LaunchCorner.dmg`) locally:
 ```bash
 ./scripts/build_release.sh
 ```
+
+---
+
+## Acknowledgements
+
+Special thanks to the amazing open-source projects that power LaunchCorner:
+- **[Sparkle Framework](https://sparkle-project.org)**: The open-source software update framework for macOS.
+- **[create-dmg](https://github.com/create-dmg/create-dmg)**: Modern macOS DMG installer disk image generator.
 
 ---
 
