@@ -15,7 +15,7 @@
 
 <div align="center">
   <h5>1. Onboarding & Accessibility Permission</h3>
-  <img src="docs/screenshots/onboarding.png" alt="LaunchCorner Onboarding" width="600" />
+  <img src="docs/screenshots/onboarding.png" alt="LaunchCorner Onboarding." width="600" />
   <br /><br />
   
   <h5>2. Main Corner Configuration</h3>
