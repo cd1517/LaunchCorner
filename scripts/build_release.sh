@@ -7,11 +7,12 @@ echo "Building LaunchCorner Universal 2 Binary (Apple Silicon + Intel)..."
 mkdir -p build
 
 # Clean and build release
-xcodebuild clean -project LaunchCorner.xcodeproj -scheme LaunchCorner
+xcodebuild clean -project LaunchCorner.xcodeproj -scheme LaunchCorner -destination 'platform=macOS'
 xcodebuild build \
   -project LaunchCorner.xcodeproj \
   -scheme LaunchCorner \
   -configuration Release \
+  -destination 'platform=macOS' \
   -derivedDataPath build/DerivedData \
   ARCHS="arm64 x86_64" \
   ONLY_ACTIVE_ARCH=NO

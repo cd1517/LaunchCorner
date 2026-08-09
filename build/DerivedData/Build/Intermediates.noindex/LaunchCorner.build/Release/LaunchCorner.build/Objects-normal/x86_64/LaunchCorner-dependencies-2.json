@@ -448,6 +448,13 @@
     "moduleName" : "ServiceManagement"
   },
   {
+    "clangModuleMapPath" : "\/Users\/wenujaliyanamana\/Desktop\/LaunchCorner\/build\/DerivedData\/Build\/Products\/Release\/Sparkle.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/wenujaliyanamana\/Desktop\/LaunchCorner\/build\/DerivedData\/Build\/Intermediates.noindex\/SwiftExplicitPrecompiledModules\/Sparkle-8CBFPF6BA11E7N2SOBNNV3T3G.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "Sparkle"
+  },
+  {
     "clangModuleMapPath" : "\/Applications\/Xcode-beta.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/usr\/include\/Spatial\/module.modulemap",
     "clangModulePath" : "\/Users\/wenujaliyanamana\/Desktop\/LaunchCorner\/build\/DerivedData\/ModuleCache.noindex\/Spatial-CIMDNQ1SJ6KSETQ6J7TZ6URGP.pcm",
     "isBridgingHeaderDependency" : false,

@@ -48,7 +48,7 @@
 			<key>uniqueIdentifier</key>
 			<string>5E3F4773-439A-4D95-A954-60B9A220C6B2</string>
 		</dict>
-		<key>F1BE7EC1-653C-43DA-96E1-C0F2412C20D5</key>
+		<key>A2B3F4F8-9879-4BA3-BCB6-06F5D9EC83B1</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -57,7 +57,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>F1BE7EC1-653C-43DA-96E1-C0F2412C20D5.xcactivitylog</string>
+			<string>A2B3F4F8-9879-4BA3-BCB6-06F5D9EC83B1.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -82,13 +82,13 @@
 			<key>signature</key>
 			<string>Building project LaunchCorner with scheme LaunchCorner and configuration Release</string>
 			<key>timeStartedRecording</key>
-			<real>807889318.59335995</real>
+			<real>807967046.42435098</real>
 			<key>timeStoppedRecording</key>
-			<real>807889329.41275406</real>
+			<real>807967052.61805606</real>
 			<key>title</key>
 			<string>Building project LaunchCorner with scheme LaunchCorner and configuration Release</string>
 			<key>uniqueIdentifier</key>
-			<string>F1BE7EC1-653C-43DA-96E1-C0F2412C20D5</string>
+			<string>A2B3F4F8-9879-4BA3-BCB6-06F5D9EC83B1</string>
 		</dict>
 	</dict>
 </dict>

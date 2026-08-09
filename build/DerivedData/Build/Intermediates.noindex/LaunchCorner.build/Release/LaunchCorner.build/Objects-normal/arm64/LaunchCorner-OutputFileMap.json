@@ -43,6 +43,11 @@
     "llvm-bc" : "/Users/wenujaliyanamana/Desktop/LaunchCorner/build/DerivedData/Build/Intermediates.noindex/LaunchCorner.build/Release/LaunchCorner.build/Objects-normal/arm64/PermissionManager.bc",
     "object" : "/Users/wenujaliyanamana/Desktop/LaunchCorner/build/DerivedData/Build/Intermediates.noindex/LaunchCorner.build/Release/LaunchCorner.build/Objects-normal/arm64/PermissionManager.o"
   },
+  "/Users/wenujaliyanamana/Desktop/LaunchCorner/LaunchCorner/Services/UpdateManager.swift" : {
+    "index-unit-output-path" : "/LaunchCorner.build/Release/LaunchCorner.build/Objects-normal/arm64/UpdateManager.o",
+    "llvm-bc" : "/Users/wenujaliyanamana/Desktop/LaunchCorner/build/DerivedData/Build/Intermediates.noindex/LaunchCorner.build/Release/LaunchCorner.build/Objects-normal/arm64/UpdateManager.bc",
+    "object" : "/Users/wenujaliyanamana/Desktop/LaunchCorner/build/DerivedData/Build/Intermediates.noindex/LaunchCorner.build/Release/LaunchCorner.build/Objects-normal/arm64/UpdateManager.o"
+  },
   "/Users/wenujaliyanamana/Desktop/LaunchCorner/LaunchCorner/Views/CornerConfigSheet.swift" : {
     "index-unit-output-path" : "/LaunchCorner.build/Release/LaunchCorner.build/Objects-normal/arm64/CornerConfigSheet.o",
     "llvm-bc" : "/Users/wenujaliyanamana/Desktop/LaunchCorner/build/DerivedData/Build/Intermediates.noindex/LaunchCorner.build/Release/LaunchCorner.build/Objects-normal/arm64/CornerConfigSheet.bc",

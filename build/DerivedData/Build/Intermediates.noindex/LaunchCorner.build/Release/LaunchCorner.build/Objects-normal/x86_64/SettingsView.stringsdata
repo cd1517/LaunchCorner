@@ -7,7 +7,7 @@
         "key": "Reset Everything?",
         "location": {
           "startingColumn": 16,
-          "startingLine": 202
+          "startingLine": 201
         }
       },
       {
@@ -39,7 +39,7 @@
         "key": "Danger Zone",
         "location": {
           "startingColumn": 30,
-          "startingLine": 137
+          "startingLine": 136
         }
       },
       {
@@ -47,7 +47,7 @@
         "key": "About",
         "location": {
           "startingColumn": 30,
-          "startingLine": 151
+          "startingLine": 150
         }
       },
       {
@@ -159,7 +159,7 @@
         "key": "Reset All Configurations & Permissions",
         "location": {
           "startingColumn": 34,
-          "startingLine": 139
+          "startingLine": 138
         }
       },
       {
@@ -167,7 +167,7 @@
         "key": "Reset",
         "location": {
           "startingColumn": 36,
-          "startingLine": 141
+          "startingLine": 140
         }
       },
       {
@@ -175,7 +175,7 @@
         "key": "Version",
         "location": {
           "startingColumn": 38,
-          "startingLine": 154
+          "startingLine": 153
         }
       },
       {
@@ -183,7 +183,7 @@
         "key": "Report an Issue",
         "location": {
           "startingColumn": 38,
-          "startingLine": 163
+          "startingLine": 162
         }
       },
       {
@@ -191,7 +191,7 @@
         "key": "GitHub",
         "location": {
           "startingColumn": 38,
-          "startingLine": 174
+          "startingLine": 173
         }
       },
       {
@@ -199,7 +199,7 @@
         "key": "X (Twitter)",
         "location": {
           "startingColumn": 38,
-          "startingLine": 185
+          "startingLine": 184
         }
       },
       {
@@ -207,7 +207,7 @@
         "key": "Cancel",
         "location": {
           "startingColumn": 20,
-          "startingLine": 203
+          "startingLine": 202
         }
       },
       {
@@ -215,7 +215,7 @@
         "key": "Reset All",
         "location": {
           "startingColumn": 20,
-          "startingLine": 204
+          "startingLine": 203
         }
       },
       {
@@ -223,7 +223,7 @@
         "key": "This will reset all corner assignments, settings, and accessibility permissions, returning you to onboarding.",
         "location": {
           "startingColumn": 18,
-          "startingLine": 219
+          "startingLine": 218
         }
       }
     ]

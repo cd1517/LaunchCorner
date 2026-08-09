@@ -346,6 +346,7 @@ extern "C" {
 #endif
 @import AppKit;
 @import ObjectiveC;
+@import Sparkle;
 #endif
 
 #endif // defined(__OBJC__)
@@ -382,6 +383,13 @@ SWIFT_CLASS("_TtC12LaunchCorner14MenuBarManager")
 @interface MenuBarManager : NSObject
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+@class SPUUpdater;
+SWIFT_CLASS("_TtC12LaunchCorner13UpdateManager")
+@interface UpdateManager : NSObject <SPUStandardUserDriverDelegate, SPUUpdaterDelegate>
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (void)updater:(SPUUpdater * _Nonnull)updater didAbortWithError:(NSError * _Nonnull)error;
 @end
 
 #endif // defined(__OBJC__)

@@ -4,18 +4,38 @@
 <dict>
 	<key>files</key>
 	<dict>
+		<key>Resources/AppIcon.icns</key>
+		<data>
+		h1ZhOUIeu42BYOFAqbqyjcU/sWo=
+		</data>
 		<key>Resources/Assets.car</key>
 		<data>
-		6tshqsWXXc0xG2iZJyMftIhlpNM=
+		qyh8jvkV1YKlnAj/XAy0N4nnr6E=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
+		<key>Frameworks/Sparkle.framework</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			4+ffAtOUUPHxSPLU++MXryox7Ns=
+			</data>
+			<key>requirement</key>
+			<string>cdhash H"e3e7df02d39450f1f148f2d4fbe317af2a31ecdb" or cdhash H"26d84c421c25969c91d2ebd47fd9a10b58571ab9"</string>
+		</dict>
+		<key>Resources/AppIcon.icns</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			7BHlma9tX8ywUu6KPlu/bxUFq8iWyaxR8BJAKPHfr1I=
+			</data>
+		</dict>
 		<key>Resources/Assets.car</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Ml20KwLYcNiN2csyO4erl5nwSdXxnhge7ta745K+e/Q=
+			pjKjHcaJ/Bo+Y7xckCMcenoMLW9gZ/C6sKhlZWcwBNk=
 			</data>
 		</dict>
 	</dict>
