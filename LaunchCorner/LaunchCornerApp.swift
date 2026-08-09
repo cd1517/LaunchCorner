@@ -46,9 +46,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
                     win.isVisible && !win.isSheet && win.sheetParent == nil && win.level == .normal
                 }
                 
-                // If the main window is closed and Show in Menu Bar is enabled, hide from Dock (.accessory)
-                if !hasVisibleMainWindow && configStore.config.showInMenuBar {
-                    NSApp.setActivationPolicy(.accessory)
+                if !hasVisibleMainWindow {
+                    if configStore.config.showInMenuBar {
+                        // Show in Menu Bar is ON: hide from Dock (.accessory) and keep running in Menu Bar
+                        NSApp.setActivationPolicy(.accessory)
+                    } else {
+                        // Show in Menu Bar is OFF: quit app cleanly so no phantom process or Dock icon stays behind
+                        NSApp.terminate(nil)
+                    }
                 }
             }
         }
