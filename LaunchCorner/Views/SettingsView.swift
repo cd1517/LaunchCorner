@@ -4,16 +4,16 @@ import ServiceManagement
 struct SettingsView: View {
     @EnvironmentObject var configStore: ConfigStore
     @EnvironmentObject var permissionManager: PermissionManager
+    @EnvironmentObject var updateManager: UpdateManager
     var onBack: (() -> Void)? = nil
     
     @AppStorage("launchAtLogin") private var launchAtLogin = false
     @State private var showResetConfirmation = false
     @State private var updateStatus: String = ""
-    @State private var isCheckingUpdate = false
     
     private let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
     private let buildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
-    private let githubRepo = "wenujacodes/Nook"
+    private let githubRepo = "wenujacodes/LaunchCorner"
     
     var body: some View {
         VStack(spacing: 0) {
@@ -124,9 +124,8 @@ struct SettingsView: View {
                                 }
                                 Spacer()
                                 Button("Check Now") {
-                                    checkForUpdates()
+                                    updateManager.checkForUpdates()
                                 }
-                                .disabled(isCheckingUpdate)
                                 .controlSize(.small)
                             }
                         }
@@ -160,7 +159,7 @@ struct SettingsView: View {
                             Divider()
                             
                             HStack {
-                                Link("Report an Issue", destination: URL(string: "https://github.com/wenujacodes/Nook/issues")!)
+                                Link("Report an Issue", destination: URL(string: "https://github.com/wenujacodes/LaunchCorner/issues")!)
                                     .foregroundColor(.accentColor)
                                 Spacer()
                                 Image(systemName: "bubble.left.and.exclamationmark.bubble.right")
@@ -171,7 +170,7 @@ struct SettingsView: View {
                             Divider()
                             
                             HStack {
-                                Link("GitHub", destination: URL(string: "https://github.com/wenujacodes")!)
+                                Link("GitHub", destination: URL(string: "https://github.com/wenujacodes/LaunchCorner")!)
                                     .foregroundColor(.accentColor)
                                 Spacer()
                                 Image(systemName: "arrow.up.right.square")
@@ -218,45 +217,5 @@ struct SettingsView: View {
         } message: {
             Text("This will reset all corner assignments, settings, and accessibility permissions, returning you to onboarding.")
         }
-    }
-    
-    private func checkForUpdates() {
-        isCheckingUpdate = true
-        updateStatus = "Checking..."
-        
-        guard let url = URL(string: "https://api.github.com/repos/\(githubRepo)/releases/latest") else {
-            updateStatus = "Invalid repository URL"
-            isCheckingUpdate = false
-            return
-        }
-        
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            DispatchQueue.main.async {
-                isCheckingUpdate = false
-                
-                if let error = error {
-                    updateStatus = "Failed: \(error.localizedDescription)"
-                    return
-                }
-                
-                guard let data = data,
-                      let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-                      let tagName = json["tag_name"] as? String else {
-                    updateStatus = "No releases found"
-                    return
-                }
-                
-                let latestVersion = tagName.replacingOccurrences(of: "v", with: "")
-                if latestVersion.compare(appVersion, options: .numeric) == .orderedDescending {
-                    updateStatus = "Update available: v\(latestVersion)"
-                    if let releaseURL = json["html_url"] as? String,
-                       let url = URL(string: releaseURL) {
-                        NSWorkspace.shared.open(url)
-                    }
-                } else {
-                    updateStatus = "You're up to date"
-                }
-            }
-        }.resume()
     }
 }

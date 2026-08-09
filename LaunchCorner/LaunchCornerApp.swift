@@ -5,6 +5,9 @@ import AppKit
 class AppState: ObservableObject {
     let configStore = ConfigStore()
     let permissionManager = PermissionManager()
+    lazy var updateManager: UpdateManager = {
+        UpdateManager()
+    }()
     lazy var engine: CornerDetectionEngine = {
         CornerDetectionEngine(configStore: configStore)
     }()
@@ -120,6 +123,7 @@ struct LaunchCornerApp: App {
                 .environmentObject(appState.configStore)
                 .environmentObject(appState.permissionManager)
                 .environmentObject(appState.engine)
+                .environmentObject(appState.updateManager)
                 .onAppear {
                     appDelegate.appState = appState
                     appDelegate.showMainWindow()
@@ -128,6 +132,11 @@ struct LaunchCornerApp: App {
                     let delegate = appDelegate
                     appState.menuBarManager.onOpenSettings = { [weak delegate] in
                         delegate?.showMainWindow()
+                    }
+                    
+                    let updateManager = appState.updateManager
+                    appState.menuBarManager.onCheckForUpdates = { [weak updateManager] in
+                        updateManager?.checkForUpdates()
                     }
                     
                     appState.permissionManager.startMonitoringPermission()
