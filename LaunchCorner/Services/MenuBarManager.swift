@@ -99,8 +99,9 @@ class MenuBarManager: NSObject {
                 statusItem = nil
             }
             NSApp.setActivationPolicy(.regular)
-            if let window = NSApp.windows.first, !window.isVisible {
+            if let window = NSApp.windows.first(where: { !$0.isSheet && $0.canBecomeMain }) {
                 window.makeKeyAndOrderFront(nil)
+                window.orderFrontRegardless()
                 NSApp.activate(ignoringOtherApps: true)
             }
         }

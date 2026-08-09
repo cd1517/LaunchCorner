@@ -15,9 +15,9 @@ class AppState: ObservableObject {
 
 class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     var appState: AppState?
+    var openWindowHandler: (() -> Void)?
     
     func applicationDidFinishLaunching(_ notification: Notification) {
-        // Observe window closing to remove icon from Dock when running in menu bar
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleWindowWillClose(_:)),
@@ -28,10 +28,25 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     
     @objc private func handleWindowWillClose(_ notification: Notification) {
         Task { @MainActor [weak self] in
-            guard let window = notification.object as? NSWindow, window.isKeyWindow || NSApp.windows.contains(window) else { return }
+            guard let closedWindow = notification.object as? NSWindow else { return }
             
-            if let configStore = self?.appState?.configStore, configStore.config.showInMenuBar {
-                NSApp.setActivationPolicy(.accessory)
+            // Ignore sheets, popovers, or child windows
+            if closedWindow.isSheet || closedWindow.sheetParent != nil || closedWindow.className.contains("Popover") {
+                return
+            }
+            
+            // Defer slightly so SwiftUI finishes processing window state
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [weak self] in
+                guard let self = self, let configStore = self.appState?.configStore else { return }
+                
+                let hasVisibleMainWindow = NSApp.windows.contains { win in
+                    win.isVisible && !win.isSheet && win.sheetParent == nil && win.level == .normal
+                }
+                
+                // If the main window is closed and Show in Menu Bar is enabled, hide from Dock (.accessory)
+                if !hasVisibleMainWindow && configStore.config.showInMenuBar {
+                    NSApp.setActivationPolicy(.accessory)
+                }
             }
         }
     }
@@ -42,13 +57,55 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
     
     func showMainWindow() {
-        Task { @MainActor in
+        Task { @MainActor [weak self] in
             NSApp.setActivationPolicy(.regular)
-            if let window = NSApp.windows.first {
+            
+            // 1. Try visible main windows
+            if let window = NSApp.windows.first(where: { win in
+                win.isVisible && !win.isSheet && win.sheetParent == nil && win.level == .normal
+            }) {
                 window.makeKeyAndOrderFront(nil)
+                window.orderFrontRegardless()
                 NSApp.activate(ignoringOtherApps: true)
+                return
+            }
+            
+            // 2. Try non-visible main windows
+            if let window = NSApp.windows.first(where: { win in
+                !win.isSheet && win.sheetParent == nil && win.level == .normal
+            }) {
+                window.setIsVisible(true)
+                window.makeKeyAndOrderFront(nil)
+                window.orderFrontRegardless()
+                NSApp.activate(ignoringOtherApps: true)
+                return
+            }
+            
+            // 3. Fallback: Re-open main window via SwiftUI openWindow
+            self?.openWindowHandler?()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                if let window = NSApp.windows.first(where: { !$0.isSheet && $0.sheetParent == nil }) {
+                    window.makeKeyAndOrderFront(nil)
+                    window.orderFrontRegardless()
+                    NSApp.activate(ignoringOtherApps: true)
+                }
             }
         }
+    }
+}
+
+struct MainViewContainer: View {
+    @Environment(\.openWindow) private var openWindow
+    let appDelegate: AppDelegate
+    
+    var body: some View {
+        MainView()
+            .onAppear {
+                appDelegate.openWindowHandler = {
+                    openWindow(id: "main-window")
+                }
+            }
     }
 }
 
@@ -58,8 +115,8 @@ struct LaunchCornerApp: App {
     @StateObject private var appState = AppState()
     
     var body: some Scene {
-        WindowGroup("LaunchCorner") {
-            MainView()
+        WindowGroup("LaunchCorner", id: "main-window") {
+            MainViewContainer(appDelegate: appDelegate)
                 .environmentObject(appState.configStore)
                 .environmentObject(appState.permissionManager)
                 .environmentObject(appState.engine)
