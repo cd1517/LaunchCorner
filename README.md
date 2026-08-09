@@ -47,6 +47,8 @@
 3. Drag **LaunchCorner** into your **Applications** folder.
 4. Open **LaunchCorner** and grant **Accessibility Access** when prompted (*System Settings > Privacy & Security > Accessibility*).
 
+> **Note**: On first launch, if prompted by macOS Gatekeeper, right-click `LaunchCorner.app` and choose **Open** (or click **Open Anyway** in *System Settings > Privacy & Security*).
+
 ---
 
 ## Building from Source
