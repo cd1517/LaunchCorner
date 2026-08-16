@@ -14,6 +14,9 @@ xcuserdata/
 *.moved-aside
 *.xcuserstate
 *.xcscmblueprint
+*.xcuserdatad
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
 
 # macOS
 .DS_Store
