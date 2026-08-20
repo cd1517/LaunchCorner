@@ -47,13 +47,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
                 }
                 
                 if !hasVisibleMainWindow {
-                    if configStore.config.showInMenuBar {
-                        // Show in Menu Bar is ON: hide from Dock (.accessory) and keep running in Menu Bar
-                        NSApp.setActivationPolicy(.accessory)
-                    } else {
-                        // Show in Menu Bar is OFF: quit app cleanly so no phantom process or Dock icon stays behind
-                        NSApp.terminate(nil)
-                    }
+                    // Hide from Dock (.accessory) and keep running in background (with or without Menu Bar item)
+                    NSApp.setActivationPolicy(.accessory)
                 }
             }
         }

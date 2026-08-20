@@ -195,15 +195,29 @@ struct SettingsView: View {
                             .fontWeight(.medium)
                             .foregroundColor(.secondary)
                         
-                        HStack {
-                            Text("Reset All Configurations & Permissions")
-                                .font(.body)
-                            Spacer()
-                            Button("Reset") {
-                                showingResetAlert = true
+                        VStack(spacing: 12) {
+                            HStack {
+                                Text("Quit LaunchCorner")
+                                    .font(.body)
+                                Spacer()
+                                Button("Quit App") {
+                                    NSApp.terminate(nil)
+                                }
+                                .buttonStyle(.bordered)
                             }
-                            .foregroundColor(.red)
-                            .buttonStyle(.bordered)
+                            
+                            Divider()
+                            
+                            HStack {
+                                Text("Reset All Configurations & Permissions")
+                                    .font(.body)
+                                Spacer()
+                                Button("Reset") {
+                                    showingResetAlert = true
+                                }
+                                .foregroundColor(.red)
+                                .buttonStyle(.bordered)
+                            }
                         }
                         .padding(14)
                         .background(colorScheme == .dark ? Color.white.opacity(0.04) : Color.white)
@@ -226,7 +240,7 @@ struct SettingsView: View {
                                 Text("Version")
                                     .font(.body)
                                 Spacer()
-                                Text("1.1.0")
+                                Text("1.1.1")
                                     .font(.body)
                                     .foregroundColor(.secondary)
                             }

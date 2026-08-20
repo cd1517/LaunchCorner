@@ -98,11 +98,13 @@ class MenuBarManager: NSObject {
                 NSStatusBar.system.removeStatusItem(item)
                 statusItem = nil
             }
-            NSApp.setActivationPolicy(.regular)
-            if let window = NSApp.windows.first(where: { !$0.isSheet && $0.canBecomeMain }) {
-                window.makeKeyAndOrderFront(nil)
-                window.orderFrontRegardless()
-                NSApp.activate(ignoringOtherApps: true)
+            let hasVisibleMainWindow = NSApp.windows.contains { win in
+                win.isVisible && !win.isSheet && win.sheetParent == nil && win.level == .normal
+            }
+            if hasVisibleMainWindow {
+                NSApp.setActivationPolicy(.regular)
+            } else {
+                NSApp.setActivationPolicy(.accessory)
             }
         }
     }

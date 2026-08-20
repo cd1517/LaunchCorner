@@ -6,15 +6,15 @@
         <description>Most recent updates for LaunchCorner</description>
         <language>en</language>
         <item>
-            <title>Version 1.1.0</title>
+            <title>Version 1.1.1</title>
             <sparkle:releaseNotesLink>
-                https://github.com/wenujacodes/LaunchCorner/releases/tag/v1.1.0
+                https://github.com/wenujacodes/LaunchCorner/releases/tag/v1.1.1
             </sparkle:releaseNotesLink>
-            <pubDate>Sun, 09 Aug 2026 19:30:00 +0000</pubDate>
+            <pubDate>Thu, 20 Aug 2026 21:37:00 +0000</pubDate>
             <enclosure
-                url="https://github.com/wenujacodes/LaunchCorner/releases/download/v1.1.0/LaunchCorner.dmg"
-                sparkle:version="2"
-                sparkle:shortVersionString="1.1.0"
+                url="https://github.com/wenujacodes/LaunchCorner/releases/download/v1.1.1/LaunchCorner.dmg"
+                sparkle:version="3"
+                sparkle:shortVersionString="1.1.1"
                 type="application/octet-stream" />
         </item>
     </channel>
