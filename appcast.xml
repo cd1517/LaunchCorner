@@ -15,6 +15,8 @@
                 url="https://github.com/wenujacodes/LaunchCorner/releases/download/v1.1.1/LaunchCorner.dmg"
                 sparkle:version="3"
                 sparkle:shortVersionString="1.1.1"
+                sparkle:edSignature="/Ub6Bl4qlsBLKQTEBo4CZaFpSiQ//fMRWWl3uYcdMrJELN3+nnyogQBlGQizvDfhbu8VgXVsQf4BjDW3UYIBDw=="
+                length="1368833"
                 type="application/octet-stream" />
         </item>
     </channel>

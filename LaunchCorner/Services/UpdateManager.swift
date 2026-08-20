@@ -41,7 +41,7 @@ class UpdateManager: NSObject, ObservableObject, SPUUpdaterDelegate, SPUStandard
     }
     
     func updater(_ updater: SPUUpdater, didAbortWithError error: Error) {
-        showUpToDateAlert()
+        print("Sparkle update error / abort: \(error.localizedDescription)")
     }
     
     private func showUpToDateAlert() {
